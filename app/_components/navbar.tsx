@@ -19,7 +19,7 @@ export default function Navbar() {
       <nav className="flex-1 flex justify-center gap-8 text-gray-300 font-medium text-sm">
         <Link href="/" className="hover:text-purple-400 transition-colors">Início</Link>
         <Link href="/catalogo" className="hover:text-purple-400 transition-colors">Catálogo</Link>
-        <Link href="http://localhost:3000/monte-seu-carro" className="hover:text-purple-400 transition-colors">Monte seu carro</Link>
+        <Link href="/monte-seu-carro" className="hover:text-purple-400 transition-colors">Monte seu carro</Link>
        
       </nav>
 
