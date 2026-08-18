@@ -63,7 +63,7 @@ export default function SelecionarCarroPage() {
             >
               <span className="text-xs text-purple-400 font-semibold tracking-widest uppercase">{carro.marca}</span>
               <span className="text-xl font-bold">{carro.modelo}</span>
-              <span className="text-xs text-gray-500">Ano {carro.ano}</span>
+             
             </button>
           ))}
         </div>
