@@ -6,9 +6,9 @@ import Link from 'next/link';
 // --- CATÁLOGO DE PEÇAS & KITS ---
 const pecasCatalogo = [
   { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas & Pneus', preco: 'R$ ?', imagem: '/roda1.png', descricao: 'descrição.' },
-  { id: 2, nome: 'Calota Porsche Rim', categoria: 'a2', preco: 'R$ ?', imagem: '/roda2.png', descricao: 'descrição.' },
-  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'a3', preco: 'R$ ?', imagem: '/roda3.png', descricao: 'descrição' },
-  { id: 4, nome: 'a4', categoria: 'a4', preco: 'R$ ?', imagem: '/fundoInicio_upscaled.png', descricao: 'descrição' },
+  { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas & Pneus', preco: 'R$ ?', imagem: '/roda2.png', descricao: 'descrição.' },
+  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'Rodas & Pneus', preco: 'R$ ?', imagem: '/roda3.png', descricao: 'descrição' },
+  { id: 4, nome: 'a4', categoria: '', preco: 'R$ ?', imagem: '/fundoInicio_upscaled.png', descricao: 'descrição' },
   { id: 5, nome: 'a5', categoria: 'a5', preco: 'R$ ?', imagem: '/fundoInicio_upscaled.png', descricao: 'descrição' },
   { id: 6, nome: 'a6', categoria: 'a6', preco: 'R$ ?', imagem: '/fundoInicio_upscaled.png', descricao: 'descrição' },
 ];

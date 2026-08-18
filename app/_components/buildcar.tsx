@@ -8,19 +8,19 @@ export function Buildcar() {
       stepNumber: "01",
       icon: <Car className="w-6 h-6 text-purple-400" />,
       title: "Escolha seu carro",
-      description: "Selecione a marca, modelo e ano exato do seu veículo.",
+      description: "Selecione a marca e modelo do seu veículo.",
     },
     {
       stepNumber: "02",
       icon: <Settings className="w-6 h-6 text-purple-400" />,
       title: "Personalize",
-      description: "Altere cores, rodas, suspensão e acessórios exclusivos.",
+      description: "Altere cores, rodas, escapamento e muito mais.",
     },
     {
       stepNumber: "03",
       icon: <ShoppingCart className="w-6 h-6 text-purple-400" />,
       title: "Compre as peças",
-      description: "Adicione ao carrinho e receba tudo em casa com segurança.",
+      description: "Adicione ao carrinho e receba tudo em segurança.",
     },
   ];
 
