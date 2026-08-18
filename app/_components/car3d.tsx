@@ -12,11 +12,12 @@ interface Car3DProps {
   grilleColor?: string;
 }
 
+// Carrega o modelo 3D do carro e pinta as partes certinhas (lataria, rodas, placa...)
 function CarModel({ bodyColor = "#90309B", rimColor = "#ef4444", grilleColor = "#000000" }: Car3DProps) {
   const { scene } = useGLTF('/2019_toyota_camry_hybrid_xse.glb');
   
   React.useEffect(() => {
-    // 1. Cria a textura da placa
+    // 1. Cria a textura personalizada da placa com o nome da loja
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 256;
@@ -36,7 +37,7 @@ function CarModel({ bodyColor = "#90309B", rimColor = "#ef4444", grilleColor = "
     }
     const plateTexture = new THREE.CanvasTexture(canvas);
 
-    // 2. Percorre o modelo
+    // 2. Passa por cada pecinha (mesh) do modelo aplicando as cores escolhidas
     scene.traverse((child: any) => {
       if (child.isMesh) {
         child.castShadow = true;
@@ -68,6 +69,7 @@ function CarModel({ bodyColor = "#90309B", rimColor = "#ef4444", grilleColor = "
   return <primitive object={scene} scale={9.5} position={[0.5, -0.4, 0]} />;
 }
 
+// Tela de loading bonitinha enquanto o 3D carrega
 function Carregando() {
   return (
     <Html center>
@@ -85,10 +87,13 @@ export default function Car3D({
 }: Car3DProps) {
   return (
     <section className="relative w-full flex items-center overflow-hidden pb-12 pt-12">
+      {/* Efeitos de luz de fundo */}
       <div className="absolute top-1/2 right-20 -translate-y-1/2 w-[450px] h-[450px] bg-purple-600/20 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600/25 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 px-4 md:px-8">
+        
+        {/* Lado esquerdo: Textos e Chamadas para Ação */}
         <div className="flex flex-col gap-6">
           <span className="text-purple-400 font-semibold tracking-wider text-xs uppercase">MONTE DO SEU JEITO</span>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
@@ -98,11 +103,16 @@ export default function Car3D({
           <p className="text-gray-400 text-base max-w-lg">Oferecemos os melhores serviços para customização do seu carro com as melhores peças.</p>
 
           <div className="flex flex-col items-center lg:items-start gap-4 pt-2">
-            <Link href="/selecionar-carro" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg max-w-max">Monte seu carro</Link>
-            <Link href="/catalogo" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg w-max">Veja nossos produtos</Link>
+            <Link href="/selecionar-carro" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg max-w-max cursor-pointer">
+              Monte seu carro
+            </Link>
+            <Link href="/catalogo" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg w-max cursor-pointer">
+              Veja nossos produtos
+            </Link>
           </div>
         </div>
 
+        {/* Lado direito: O Palco 3D */}
         <div className="relative w-full h-[480px] md:h-[480px] flex items-center justify-center">
           <Canvas shadows camera={{ position: [7, 1.8, 7], fov: 42 }} className="w-full h-full cursor-grab active:cursor-grabbing">
             <ambientLight intensity={0.5} />
@@ -123,12 +133,14 @@ export default function Car3D({
               
               <CarModel bodyColor={bodyColor} rimColor={rimColor} grilleColor={grilleColor} />
 
+              {/* Chão com sombra projetada do carro */}
               <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.4, 0]} receiveShadow>
                 <planeGeometry args={[100, 100]} />
                 <shadowMaterial transparent opacity={0.4} />
               </mesh>
             </Suspense>
             
+            {/* Controles do mouse no 3D */}
             <OrbitControls 
               enableZoom={true} 
               zoomSpeed={0.8}
@@ -139,6 +151,7 @@ export default function Car3D({
             />
           </Canvas>
         </div>
+
       </div>
     </section>
   );
