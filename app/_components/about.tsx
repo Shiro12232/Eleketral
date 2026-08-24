@@ -9,28 +9,28 @@ export function About() {
   return (
     <section className="relative w-full py-24 bg-[#0b0b0f] text-white overflow-hidden">
       
-      {/* Luz de fundo decorativa */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 from-purple-600/40 to-blue-600/40 blur-[130px] rounded-full pointer-events-none" />
+      {/* Luz de fundo  */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 from-purple-600/40
+       to-blue-600/40 blur-[130px] rounded-full pointer-events-none" />
 
       <div className="container px-4 mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          {/* Lado esquerdo: Imagem de destaque com efeito de zoom no hover */}
-          <div className="relative w-full h-[300px] lg:h-[400px] rounded-2xl overflow-hidden group shadow-2xl border border-white/10">
+          {/* Lado esquerdo da foto com zoom*/}
+          <div className="relative w-full h-[300px] lg:h-[400px] rounded-2xl overflow-hidden group shadow-2xl border border-black/10">
             <Image
               src="/carPurple.jpg"
               alt="Sobre a Eleketral Auto Peças"
               fill
               quality={100}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
               priority
             />
-            {/* Gradientes nas bordas para mesclar com o fundo */}
-            <div className="absolute inset-0 from-[#0b0b0f] via-transparent to-transparent opacity-80" />
-            <div className="absolute inset-0 from-[#0b0b0f]/60 via-transparent to-[#0b0b0f]/60" />
+            
+            
           </div>
 
-          {/* Lado direito: Textos e diferenciais da empresa */}
+          {/* Lado direito com os textos */}
           <div className="flex flex-col gap-6">
             <span className="text-purple-400 text-xs md:text-sm font-semibold tracking-widest uppercase block">
               QUEM SOMOS
@@ -40,10 +40,11 @@ export function About() {
             </h2>
 
             <p className="text-gray-400 text-base leading-relaxed">
-              Especialistas em performance e estética automotiva. Oferecemos peças e acessórios exclusivos para quem busca personalizar e potencializar seu carro com estilo, segurança e o melhor desempenho.
+              Especialistas em performance e estética automotiva. Oferecemos peças e acessórios exclusivos para quem busca personalizar e potencializar seu carro com estilo, 
+              segurança e o melhor desempenho.
             </p>
 
-            {/* Lista de pontos fortes */}
+            {/* os certificados */}
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-gray-300 font-medium">
                 <span className="p-1 rounded-full bg-purple-900/50 text-purple-400 border border-purple-500/30">
@@ -65,24 +66,19 @@ export function About() {
               </li>
             </ul>
 
-            {/* Botões de contato e localização */}
+            {/* botao do insta  */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="https://www.instagram.com/"
                 target="_blank"
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-purple-900/30 cursor-pointer"
+                className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl 
+                flex items-center gap-2 transition-all shadow-lg shadow-purple-900/30 cursor-pointer"
               >
                 <InstagramLogoIcon className="w-4 h-4" />
                 Contato via Instagram
               </Link>
 
-              <Link
-                href="#localizacao"
-                className="bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-700 font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all cursor-pointer"
-              >
-                <MapPin className="w-4 h-4 text-purple-400" />
-                Endereço da loja
-              </Link>
+             
             </div>
 
           </div>

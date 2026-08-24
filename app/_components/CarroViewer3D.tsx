@@ -4,11 +4,11 @@ import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Center, OrbitControls, useGLTF } from "@react-three/drei";
 
-// Carrega e centraliza o modelo 3D na tela
+// centraliza o carro
 function Model({ url, color }: { url: string; color: string }) {
   const { scene } = useGLTF(url);
   
-  // Aqui você pode customizar materiais e cores depois se quiser
+  // customizar os materiais
   return (
     <Center top>
       <primitive object={scene} scale={1.2} />
@@ -17,8 +17,8 @@ function Model({ url, color }: { url: string; color: string }) {
 }
 
 export default function CarroViewer3D({ modelo, color }: { modelo: string; color: string }) {
-  // Pega o arquivo .glb correspondente baseado no modelo salvo
-  let glbPath = "/2018_audi_e-tron_gt_concept.glb"; // padrãozinho
+  //arquivo glb
+  let glbPath = "/2018_audi_e-tron_gt_concept.glb"; 
   
   const modeloLower = modelo.toLowerCase();
   if (modeloLower.includes("m3") || modeloLower.includes("bmw")) {
@@ -33,7 +33,7 @@ export default function CarroViewer3D({ modelo, color }: { modelo: string; color
         camera={{ position: [5, 2, 5], fov: 50 }}
         style={{ background: "transparent" }}
       >
-        {/* Iluminação do palco */}
+        {/* iluminação */}
         <ambientLight intensity={1.5} />
         <directionalLight position={[10, 20, 15]} intensity={2} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
@@ -42,7 +42,7 @@ export default function CarroViewer3D({ modelo, color }: { modelo: string; color
           <Model url={glbPath} color={color} />
         </Suspense>
 
-        {/* Controles da câmera (travados para não passar do chão) */}
+        {/* Controles da câmera  */}
         <OrbitControls 
           enablePan={false} 
           enableZoom={true} 

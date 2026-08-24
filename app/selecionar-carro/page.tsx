@@ -7,13 +7,13 @@ export default function SelecionarCarroPage() {
   const router = useRouter();
 
   const selecionarCarro = (carro: any) => {
-    // Salva os dados do carro escolhido no localStorage
+    // Salva os dados do carro 
     localStorage.setItem("projeto_marca", carro.marca);
     localStorage.setItem("projeto_modelo", carro.modelo);
     localStorage.setItem("projeto_ano", carro.ano);
     localStorage.setItem("projeto_link3d", carro.link3d);
 
-    // Redireciona para o configurador passando o link 3D via URL
+    // Redireciona para o configurador passando o link 3D 
     router.push(`/monte-seu-carro?view3d=${encodeURIComponent(carro.link3d)}`);
   };
 
@@ -28,9 +28,9 @@ export default function SelecionarCarroPage() {
     { 
       id: 2, 
       marca: "Nissan", 
-      modelo: "GT-R R35", 
+      modelo: "Mak Nissan S15 Silvia ", 
        
-      link3d: "https://sketchfab.com/models/573056b723514d179ac9dec418f0a944" 
+      link3d: "https://sketchfab.com/3d-models/2018-garage-mak-nissan-s15-silvia-reggie-mah-76c47541645348969a1a85ae53e92e5c" 
     },
     { 
       id: 3, 
@@ -39,13 +39,19 @@ export default function SelecionarCarroPage() {
        
       link3d: "https://sketchfab.com/models/e35726151c9e4a169c005d54509715fa" 
     },
-    { 
-      id: 4, 
-      marca: "Lamborghini", 
-      modelo: "Huracán", 
-       
-      link3d: "https://sketchfab.com/models/fb394828f73144d188283a213e4b7713" 
-    }
+    {
+      id: 4,
+      marca: "Bugatti",
+      modelo: "Chiron Golden Era",
+      link3d: "https://sketchfab.com/3d-models/bugatti-chiron-golden-era-fe14b2d41c3e409192d16be61a44c216"
+    },
+    {
+      id: 5,
+      marca: "Logan",
+      modelo: "Dacia",
+      link3d: "https://sketchfab.com/3d-models/dacia-logan-22d04d5ff4e7439e826c86d8a2931fa1"
+    },
+    
   ];
 
   return (

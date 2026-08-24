@@ -2,7 +2,7 @@ import { Wrench, Clock, CircleCheckBig, Tag, Phone } from "lucide-react";
 import Link from "next/link";
 
 export function Services() {
-  // Lista de serviços oferecidos na oficina/loja
+  // Lista de serviços 
   const servicesList = [
     {
       icon: <Wrench className="w-6 h-6 text-purple-400" />,
@@ -28,12 +28,12 @@ export function Services() {
     <section className="relative w-full py-16 bg-[#0b0b0f] text-white">
       <div className="container px-4 mx-auto">
         
-        {/* Título da seção */}
+        {/* Título dprincipal*/}
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">
           Serviços
         </h2>
 
-        {/* Grid dos cards de serviços */}
+        {/* background */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {servicesList.map((service, index) => (
             <div
@@ -55,7 +55,7 @@ export function Services() {
                 </p>
               </div>
 
-              {/* Rodapé do card: Tempo estimado e Botão de WhatsApp */}
+              {/* botao e duração*/}
               <div className="pt-4 border-t border-gray-800/80 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-gray-400 text-sm">
                   <Clock className="w-4 h-4 text-purple-400" />
