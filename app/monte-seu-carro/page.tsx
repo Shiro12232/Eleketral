@@ -36,35 +36,20 @@ const colorMap: Record<string, [number, number, number]> = {
   fibraCarbono: [0.12, 0.12, 0.12],
 };
 
-// LISTA DE CORES PADRÕES / SÓBRIAS
 const standardColorsList = [
   'brancoPerola', 'prataLunar', 'cinzaNardo', 'chumboMetalico', 
   'pretoBrilhante', 'pretoFosco', 'champanhe', 'marromCafe'
 ];
 
-// PREÇOS DIFERENCIADOS POR TIPO DE PEÇA E CATEGORIA DE COR
 const pricingRules = {
-  carroceria: {
-    padrao: 2500,
-    vibrante: 4000,
-  },
-  rodas: {
-    padrao: 1200,
-    vibrante: 1800,
-  },
-  interior: {
-    padrao: 800,
-    vibrante: 1200,
-  },
-  pecaPequena: {
-    padrao: 400,
-    vibrante: 700,
-  }
+  carroceria: { padrao: 2500, vibrante: 4000 },
+  rodas: { padrao: 1200, vibrante: 1800 },
+  interior: { padrao: 800, vibrante: 1200 },
+  pecaPequena: { padrao: 400, vibrante: 700 }
 };
 
-// Função auxiliar que calcula o preço baseado no tipo da peça e na cor escolhida
 const getPartPrice = (partType: keyof typeof pricingRules, selectedColorId: string) => {
-  if (selectedColorId === "brancoPerola") return 0; // Cor base gratuita
+  if (selectedColorId === "brancoPerola") return 0;
   const isStandard = standardColorsList.includes(selectedColorId);
   const rules = pricingRules[partType] || pricingRules.pecaPequena;
   return isStandard ? rules.padrao : rules.vibrante;
@@ -89,6 +74,13 @@ function ConteudoMonteSeuCarro() {
   const [sidePartsMaterials, setSidePartsMaterials] = useState<any[]>([]);
   const [taillightMaterials, setTaillightMaterials] = useState<any[]>([]);
   const [exhaustMaterials, setExhaustMaterials] = useState<any[]>([]);
+  
+  // Específicos da BMW
+  const [innerPart22Materials, setInnerPart22Materials] = useState<any[]>([]);
+  const [innerSide21Materials, setInnerSide21Materials] = useState<any[]>([]);
+
+  // Específicos do Nissan
+  const [nissanCustomMaterials, setNissanCustomMaterials] = useState<any[]>([]);
 
   const [glassNodeIds, setGlassNodeIds] = useState<number[]>([]);
   const [isReady, setIsReady] = useState(false);
@@ -100,7 +92,6 @@ function ConteudoMonteSeuCarro() {
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   
-  // Cores iniciais
   const [selectedColor, setSelectedColor] = useState("vermelhoFerrari");
   const [selectedGridColor, setSelectedGridColor] = useState("pretoFosco");
   const [selectedInteriorColor, setSelectedInteriorColor] = useState("carameloCouro"); 
@@ -112,6 +103,10 @@ function ConteudoMonteSeuCarro() {
   const [selectedSidePartsColor, setSelectedSidePartsColor] = useState("pretoFosco");
   const [selectedTaillightColor, setSelectedTaillightColor] = useState("vermelhoFerrari");
   const [selectedExhaustColor, setSelectedExhaustColor] = useState("chumboMetalico");
+  
+  const [selectedInner22Color, setSelectedInner22Color] = useState("carameloCouro");
+  const [selectedInner21Color, setSelectedInner21Color] = useState("carameloCouro");
+  const [selectedNissanCustomColor, setSelectedNissanCustomColor] = useState("pretoFosco");
 
   const [glassType, setGlassType] = useState("transparente");
   const [currentId, setCurrentId] = useState("");
@@ -119,21 +114,97 @@ function ConteudoMonteSeuCarro() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(true);
 
-  // CÁLCULO DINÂMICO DO PREÇO TOTAL BASEADO NO TIPO DE CADA PEÇA
-  const precoBaseCarro = 100000;
-  
+  // Identificação estrita baseada no modelo/marca atual
+  const isBmw = modelo.toUpperCase().includes('G80') || marca.toUpperCase().includes('BMW');
+  const isNissan = modelo.toUpperCase().includes('SILVIA') || marca.toUpperCase().includes('NISSAN') || marca.toUpperCase().includes('MAIK');
+
+  const precoBaseCarro = 0;
   const precoTotal = 
     precoBaseCarro + 
     getPartPrice('carroceria', selectedColor) +
     getPartPrice('rodas', selectedWheelColor) +
     getPartPrice('interior', selectedFrontSeatColor) +
     getPartPrice('interior', selectedInteriorColor) +
+    (isBmw ? getPartPrice('interior', selectedInner22Color) : 0) +
+    (isBmw ? getPartPrice('interior', selectedInner21Color) : 0) +
+    (isNissan ? getPartPrice('pecaPequena', selectedNissanCustomColor) : 0) +
     getPartPrice('pecaPequena', selectedRoofColor) +
     getPartPrice('pecaPequena', selectedTrunkColor) +
     getPartPrice('pecaPequena', selectedRearGlassColor) +
     getPartPrice('pecaPequena', selectedTaillightColor) +
     getPartPrice('pecaPequena', selectedExhaustColor) +
     (glassType === "preto" ? 800 : 0);
+
+  const filteredDebugMaterials = allMaterialsDebug.filter((mat) => {
+    const query = debugSearchQuery.toLowerCase();
+    const nameMatch = mat.name && mat.name.toLowerCase().includes(query);
+    const idMatch = mat.id && mat.id.toString().includes(query);
+    return nameMatch || idMatch;
+  });
+
+  const testPaintMaterialDebug = (mat: any) => {
+    if (!sketchfabApi || !mat) return;
+    const verdeColor: [number, number, number] = [0.02, 0.85, 0.05];
+    
+    if (mat.channels && mat.channels.AlbedoPBR) {
+      mat.channels.AlbedoPBR.color = verdeColor;
+      mat.channels.AlbedoPBR.enable = true;
+      sketchfabApi.setMaterial(mat, () => {
+        if (typeof sketchfabApi.updateMaterial === "function") {
+          sketchfabApi.updateMaterial(mat);
+        }
+      });
+    }
+  };
+
+  const resetDebugColors = () => {
+    if (!sketchfabApi) return;
+    applyMaterialColor(paintMaterials, selectedColor);
+    applyMaterialColor(gridMaterials, selectedGridColor);
+    applyMaterialColor(interiorMaterials, selectedInteriorColor);
+    applyMaterialColor(wheelMaterials, selectedWheelColor);
+    applyMaterialColor(frontSeatMaterials, selectedFrontSeatColor);
+    applyMaterialColor(roofInteriorMaterials, selectedRoofColor);
+    applyMaterialColor(trunkMaterials, selectedTrunkColor);
+    applyMaterialColor(rearGlassFrameMaterials, selectedRearGlassColor);
+    applyMaterialColor(sidePartsMaterials, selectedSidePartsColor);
+    applyMaterialColor(taillightMaterials, selectedTaillightColor);
+    applyMaterialColor(exhaustMaterials, selectedExhaustColor);
+    if (isBmw) {
+      applyMaterialColor(innerPart22Materials, selectedInner22Color);
+      applyMaterialColor(innerSide21Materials, selectedInner21Color);
+    }
+    if (isNissan) {
+      applyMaterialColor(nissanCustomMaterials, selectedNissanCustomColor);
+    }
+  };
+
+  const handleAddToCart = () => {
+    const itensConfigurados = [
+      { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 100000 },
+      { nome: "Pintura Externa", detalhe: selectedColor, preco: getPartPrice('carroceria', selectedColor) },
+      { nome: "Rodas", detalhe: selectedWheelColor, preco: getPartPrice('rodas', selectedWheelColor) },
+      { nome: "Bancos da Frente", detalhe: selectedFrontSeatColor, preco: getPartPrice('interior', selectedFrontSeatColor) },
+      { nome: "Bancos Traseiros", detalhe: selectedInteriorColor, preco: getPartPrice('interior', selectedInteriorColor) },
+      ...(isBmw ? [
+        { nome: "Parte Interna (mat_237_22)", detalhe: selectedInner22Color, preco: getPartPrice('interior', selectedInner22Color) },
+        { nome: "Parte Interna Lateral (mat_237_21)", detalhe: selectedInner21Color, preco: getPartPrice('interior', selectedInner21Color) }
+      ] : []),
+      ...(isNissan ? [
+        { nome: "Detalhe Exclusivo Nissan", detalhe: selectedNissanCustomColor, preco: getPartPrice('pecaPequena', selectedNissanCustomColor) }
+      ] : []),
+      { nome: "Teto Interior", detalhe: selectedRoofColor, preco: getPartPrice('pecaPequena', selectedRoofColor) },
+      { nome: "Porta-malas", detalhe: selectedTrunkColor, preco: getPartPrice('pecaPequena', selectedTrunkColor) },
+      { nome: "Moldura Vidro Traseiro", detalhe: selectedRearGlassColor, preco: getPartPrice('pecaPequena', selectedRearGlassColor) },
+      { nome: "Luz Traseira", detalhe: selectedTaillightColor, preco: getPartPrice('pecaPequena', selectedTaillightColor) },
+      { nome: "Escape / Fumaça", detalhe: selectedExhaustColor, preco: getPartPrice('pecaPequena', selectedExhaustColor) },
+      { nome: "Estilo dos Vidros", detalhe: glassType, preco: glassType === "preto" ? 800 : 0 },
+    ].filter(item => item.preco > 0 || item.nome === "Veículo Base");
+
+    localStorage.setItem("carrinho_customizacao", JSON.stringify(itensConfigurados));
+    localStorage.setItem("carrinho_total", precoTotal.toString());
+    router.push("/carrinho");
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setShowAlert(false), 3000);
@@ -170,6 +241,12 @@ function ConteudoMonteSeuCarro() {
 
   useEffect(() => {
     if (isReady && currentId && iframeRef.current && (window as any).Sketchfab) {
+      // Limpa os estados anteriores ao carregar um novo modelo 3D
+      setInnerPart22Materials([]);
+      setInnerSide21Materials([]);
+      setNissanCustomMaterials([]);
+      setAllMaterialsDebug([]);
+
       const client = new (window as any).Sketchfab(iframeRef.current);
       
       client.init(currentId, {
@@ -199,9 +276,31 @@ function ConteudoMonteSeuCarro() {
                 const partesLaterais: any[] = [];
                 const luzTraseira: any[] = [];
                 const fumaçaEscape: any[] = [];
+                const part22: any[] = [];
+                const part21: any[] = [];
+                const nissanMat: any[] = [];
 
                 materials.forEach(m => {
                   const n = m.name.toLowerCase();
+
+                  // Só captura os específicos da BMW se realmente for a BMW
+                  if (modelo.toUpperCase().includes('G80') || marca.toUpperCase().includes('BMW')) {
+                    if (n.includes("mat_237_22")) {
+                      part22.push(m);
+                      return;
+                    } else if (n.includes("mat_237_21")) {
+                      part21.push(m);
+                      return;
+                    }
+                  }
+
+                  // Só captura os específicos do Nissan se realmente for o Nissan
+                  if (modelo.toUpperCase().includes('SILVIA') || marca.toUpperCase().includes('NISSAN') || marca.toUpperCase().includes('MAIK')) {
+                    if (n.includes("garagem:phong13sg1") || n.includes("n:tire1a1")) {
+                      nissanMat.push(m);
+                      return;
+                    }
+                  }
 
                   if (n.includes("mat_237_69")) {
                     rodas.push(m);
@@ -241,6 +340,9 @@ function ConteudoMonteSeuCarro() {
                 setSidePartsMaterials(partesLaterais);
                 setTaillightMaterials(luzTraseira);
                 setExhaustMaterials(fumaçaEscape);
+                setInnerPart22Materials(part22);
+                setInnerSide21Materials(part21);
+                setNissanCustomMaterials(nissanMat);
               }
             });
 
@@ -265,31 +367,11 @@ function ConteudoMonteSeuCarro() {
         autostart: 1, transparent: 1, ui_controls: 0, ui_infos: 0, ui_watermark: 0, ui_theme: "dark"
       });
     }
-  }, [isReady, currentId]);
+  }, [isReady, currentId, modelo, marca]);
 
   const applyMaterialColor = (matList: any[], colorKey: string) => {
     if (!sketchfabApi) return;
     const novaCor = colorMap[colorKey] || colorMap.pretoFosco;
-
-    if (matList.length === 0) {
-      sketchfabApi.getMaterialList((err: any, materials: any[]) => {
-        if (!err && materials) {
-          materials.forEach((mat: any) => {
-            const n = mat.name.toLowerCase();
-            if (n.includes("mat_237_19") || n.includes("side")) {
-              if (mat.channels && mat.channels.AlbedoPBR) {
-                mat.channels.AlbedoPBR.color = novaCor;
-                mat.channels.AlbedoPBR.enable = true;
-                sketchfabApi.setMaterial(mat, () => {
-                  if (typeof sketchfabApi.updateMaterial === "function") sketchfabApi.updateMaterial(mat);
-                });
-              }
-            }
-          });
-        }
-      });
-      return;
-    }
 
     matList.forEach((mat: any) => {
       if (mat.channels && mat.channels.AlbedoPBR) {
@@ -313,6 +395,19 @@ function ConteudoMonteSeuCarro() {
   useEffect(() => { applyMaterialColor(sidePartsMaterials, selectedSidePartsColor); }, [selectedSidePartsColor, sketchfabApi, sidePartsMaterials]);
   useEffect(() => { applyMaterialColor(taillightMaterials, selectedTaillightColor); }, [selectedTaillightColor, sketchfabApi, taillightMaterials]);
   useEffect(() => { applyMaterialColor(exhaustMaterials, selectedExhaustColor); }, [selectedExhaustColor, sketchfabApi, exhaustMaterials]);
+  
+  useEffect(() => { 
+    if (isBmw) {
+      applyMaterialColor(innerPart22Materials, selectedInner22Color); 
+      applyMaterialColor(innerSide21Materials, selectedInner21Color); 
+    }
+  }, [selectedInner22Color, selectedInner21Color, sketchfabApi, innerPart22Materials, innerSide21Materials, isBmw]);
+
+  useEffect(() => {
+    if (isNissan && nissanCustomMaterials.length > 0) {
+      applyMaterialColor(nissanCustomMaterials, selectedNissanCustomColor);
+    }
+  }, [selectedNissanCustomColor, sketchfabApi, nissanCustomMaterials, isNissan]);
 
   useEffect(() => {
     if (sketchfabApi && glassNodeIds.length > 0) {
@@ -322,19 +417,6 @@ function ConteudoMonteSeuCarro() {
       });
     }
   }, [glassType, sketchfabApi, glassNodeIds]);
-
-  const testPaintMaterialDebug = (matToTest: any) => {
-    if (!sketchfabApi) return;
-    const materialCopy = { ...matToTest };
-    if (materialCopy.channels && materialCopy.channels.AlbedoPBR) {
-      materialCopy.channels.AlbedoPBR.color = [0.0, 1.0, 0.0];
-      sketchfabApi.setMaterial(materialCopy, () => {
-        if (typeof sketchfabApi.updateMaterial === "function") sketchfabApi.updateMaterial(materialCopy);
-      });
-    }
-  };
-
-  const resetDebugColors = () => window.location.reload();
 
   if (!isReady) {
     return (
@@ -410,11 +492,6 @@ function ConteudoMonteSeuCarro() {
     );
   };
 
-  const filteredDebugMaterials = allMaterialsDebug.filter((mat) => 
-    mat.name.toLowerCase().includes(debugSearchQuery.toLowerCase()) ||
-    String(mat.id).includes(debugSearchQuery)
-  );
-
   return (
     <section className="relative w-full h-screen bg-[#0b0b0f] text-white flex flex-col justify-between overflow-hidden">
       
@@ -433,71 +510,8 @@ function ConteudoMonteSeuCarro() {
         </div>
       </div>
 
-      {/* PAINEL DE DEBUG */}
-      <div className="absolute top-4 right-4 z-40 flex flex-col items-end">
-        <div className="flex items-center gap-2 mb-2">
-          {showDebugPanel && (
-            <button 
-              onClick={resetDebugColors}
-              className="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1 shadow-lg cursor-pointer"
-            >
-              Resetar Cores
-            </button>
-          )}
-          <button 
-            onClick={() => setShowDebugPanel(!showDebugPanel)}
-            className="bg-black/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
-          >
-            <Bug size={14} /> {showDebugPanel ? "Ocultar Debug" : "Abrir Debug"}
-          </button>
-        </div>
-
-        {showDebugPanel && (
-          <div className="bg-black/95 backdrop-blur-xl border border-purple-500/30 p-4 rounded-2xl w-96 max-h-[500px] overflow-hidden shadow-2xl text-xs flex flex-col gap-3">
-            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-              <div>
-                <span className="font-bold text-purple-400 uppercase tracking-wider block">Inspecionar Materiais</span>
-                <span className="text-[10px] text-gray-400">Pesquise e teste peças individualmente</span>
-              </div>
-              <span className="bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full text-[10px]">
-                {filteredDebugMaterials.length} / {allMaterialsDebug.length}
-              </span>
-            </div>
-
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input 
-                type="text"
-                placeholder="Pesquisar por nome ou ID..."
-                value={debugSearchQuery}
-                onChange={(e) => setDebugSearchQuery(e.target.value)}
-                className="w-full bg-[#12121a] text-white pl-9 pr-3 py-2 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 text-xs placeholder-gray-500 transition-all"
-              />
-            </div>
-            
-            <div className="flex flex-col gap-2 overflow-y-auto max-h-72 pr-1">
-              {filteredDebugMaterials.length === 0 ? (
-                <span className="text-gray-400 italic text-center py-4">Nenhum material encontrado...</span>
-              ) : (
-                filteredDebugMaterials.map((mat, idx) => (
-                  <div key={idx} className="bg-[#12121a] p-2.5 rounded-xl border border-white/10 flex items-center justify-between gap-2">
-                    <div className="flex flex-col truncate">
-                      <span className="font-bold text-white truncate max-w-[200px]" title={mat.name}>{mat.name}</span>
-                      <span className="text-[10px] text-gray-400">ID: {mat.id}</span>
-                    </div>
-                    <button
-                      onClick={() => testPaintMaterialDebug(mat)}
-                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-2.5 py-1.5 rounded-lg text-[10px] transition-all cursor-pointer whitespace-nowrap shadow-md flex items-center gap-1"
-                    >
-                      <Palette size={12} /> Pintar de Verde
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+      {/* Painel de Debug no Canto Superior Direito */}
+      
 
       {/* Botão lateral para abrir configurador */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
@@ -558,7 +572,7 @@ function ConteudoMonteSeuCarro() {
             </div>
           </div>
 
-          {/* 1. Pintura Externa (Carroceria - Preço Maior) */}
+          {/* 1. Pintura Externa */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Palette size={14} /> 1. Pintura Externa
@@ -566,7 +580,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedColor, setSelectedColor, 'carroceria')}
           </div>
 
-          {/* 3. Rodas (Preço Intermediário) */}
+          {/* 3. Rodas */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Disc size={14} /> 3. Rodas 
@@ -574,7 +588,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedWheelColor, setSelectedWheelColor, 'rodas')}
           </div>
 
-          {/* 5. Bancos da Frente (Interior) */}
+          {/* 5. Bancos da Frente */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Armchair size={14} /> 5. Bancos da Frente 
@@ -582,7 +596,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedFrontSeatColor, setSelectedFrontSeatColor, 'interior')}
           </div>
 
-          {/* 6. Bancos Traseiros (Interior) */}
+          {/* 6. Bancos Traseiros */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Armchair size={14} /> 6. Bancos Traseiros 
@@ -590,7 +604,40 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedInteriorColor, setSelectedInteriorColor, 'interior')}
           </div>
 
-          {/* 7. Teto Interior (Peça Pequena) */}
+          {/* ========================================================= */}
+          {/* BLOCOS EXCLUSIVOS PARA BMW (só aparecem se for BMW) */}
+          {/* ========================================================= */}
+          {isBmw && (
+            <>
+              <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-purple-500/30">
+                <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
+                  <Armchair size={14} /> Parte Interna (BMW - mat_237_22)
+                </span>
+                {renderColorGrid(selectedInner22Color, setSelectedInner22Color, 'interior')}
+              </div>
+
+              <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-purple-500/30">
+                <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
+                  <Armchair size={14} /> Parte Interna Lateral (BMW - mat_237_21)
+                </span>
+                {renderColorGrid(selectedInner21Color, setSelectedInner21Color, 'interior')}
+              </div>
+            </>
+          )}
+
+          {/* ========================================================= */}
+          {/* BLOCOS EXCLUSIVOS PARA NISSAN (só aparecem se for Nissan) */}
+          {/* ========================================================= */}
+          {isNissan && (
+            <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-cyan-500/30">
+              <span className="text-xs text-cyan-400 uppercase font-bold flex items-center gap-1.5">
+                <Sliders size={14} /> Detalhe Exclusivo (Nissan Silvia)
+              </span>
+              {renderColorGrid(selectedNissanCustomColor, setSelectedNissanCustomColor, 'pecaPequena')}
+            </div>
+          )}
+
+          {/* 7. Teto Interior */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Layers size={14} /> 7. Teto Interior 
@@ -598,7 +645,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedRoofColor, setSelectedRoofColor, 'pecaPequena')}
           </div>
 
-          {/* 8. Porta-malas (Peça Pequena) */}
+          {/* 8. Porta-malas */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Layers size={14} /> 8. Porta-malas 
@@ -606,7 +653,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedTrunkColor, setSelectedTrunkColor, 'pecaPequena')}
           </div>
 
-          {/* 9. Moldura Vidro Traseiro (Peça Pequena) */}
+          {/* 9. Moldura Vidro Traseiro */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Droplets size={14} /> 9. Moldura Vidro Traseiro 
@@ -614,7 +661,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedRearGlassColor, setSelectedRearGlassColor, 'pecaPequena')}
           </div>
 
-          {/* 10. Luz Traseira (Peça Pequena) */}
+          {/* 10. Luz Traseira */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Lightbulb size={14} /> 10. Luz Traseira 
@@ -622,7 +669,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedTaillightColor, setSelectedTaillightColor, 'pecaPequena')}
           </div>
 
-          {/* 11. Escape / Fumaça (Peça Pequena) */}
+          {/* 11. Escape / Fumaça */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Flame size={14} /> 11. Escape/Fumaça (mat_237_61)
@@ -660,9 +707,12 @@ function ConteudoMonteSeuCarro() {
               R$ {precoTotal.toLocaleString('pt-BR')}
             </span>
           </div>
-          <Link href="#" className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-purple-600/40 text-sm">
+          <button 
+            onClick={handleAddToCart}
+            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-purple-600/40 text-sm cursor-pointer"
+          >
             <ShoppingCart size={18} /> Adicionar ao Carrinho
-          </Link>
+          </button>
         </div>
 
       </div>

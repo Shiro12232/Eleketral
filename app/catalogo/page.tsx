@@ -1,40 +1,79 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 
-// catalogo principal
+// Catálogo principal com valores numéricos para o carrinho
 const pecasCatalogo = [
-  { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda1.png', descricao: 'descrição.' },
-  { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda2.png', descricao: 'descrição.' },
-  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda3.png', descricao: 'descrição' },
-  { id: 4, nome: 'Aerofolio Spoiler', categoria: 'Aerofolio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/aerofolio.jpg', descricao: 'descrição' },
-  { id: 5, nome: 'Aerofolio', categoria: 'Aerofolio', precoOriginal: 'R$ ? ', precoPromo: 'R$ ?', imagem: '/aerofolio2.jpg', descricao: 'descrição' },
-  { id: 6, nome: 'Aerofolio', categoria: 'Aerofolio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/aerofolio3.jpg', descricao: 'descrição' },
-  { id: 7, nome: 'Aerofolio', categoria: 'Escapamento', precoOriginal: 'R$', precoPromo: 'R$ ?', imagem: '/escapamento5.jpg', descricao: ''},
-  { id: 8, nome: 'Escapamento', categoria: 'Escapamento', precoOriginal: 'R$', precoPromo: 'R$ ?', imagem: '/escapamento2.jpg', descricao: ''},
-  { id: 9, nome: 'Escapamento', categoria: 'Escapamento', precoOriginal: 'R$', precoPromo: 'R$ ?', imagem: '/newescapamento3.png', descricao: ''},
-  { id: 10, nome: 'Escapamento', categoria: 'Escapamento', precoOriginal: 'R$', precoPromo: 'R$ ?', imagem: '/escapamento4.jpg', descricao: ''},
-  { id: 11, nome: 'Escapamento', categoria: 'Escapamento', precoOriginal: 'R$', precoPromo: 'R$ ?', imagem: '/newescapamento.png', descricao: ''},
-
+  { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/roda1.png', descricao: 'Aro esportivo de alta performance.' },
+  { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/roda2.png', descricao: 'Calota com acabamento premium.' },
+  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/roda3.png', descricao: 'Pneu aderente para alta velocidade.' },
+  { id: 4, nome: 'Aerofólio Wing', categoria: 'Aerofólio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/aerofolio.jpg', descricao: 'Aerofólio aerodinâmico em fibra.' },
+  { id: 5, nome: 'Aerofólio GT', categoria: 'Aerofólio', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/aerofolio2.jpg', descricao: 'Estilo agressivo de pista.' },
+  { id: 6, nome: 'Aerofólio Carbon', categoria: 'Aerofólio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/aerofolio3.jpg', descricao: 'Fibra de carbono.' },
+  { id: 7, nome: 'Escapamento Esportivo', categoria: 'Escapamento', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento5.jpg', descricao: 'Ronco encorpado e esportivo.' },
+  { id: 8, nome: 'Escapamento Duplo', categoria: 'Escapamento', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento2.jpg', descricao: 'Saída dupla em inox.' },
+  { id: 9, nome: 'Escapamento Inox', categoria: 'Escapamento', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/newescapamento3.png', descricao: 'Resistente a altas temperaturas.' },
+  { id: 10, nome: 'Escapamento Race', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento4.jpg', descricao: 'Modelo de competição.' },
+  { id: 11, nome: 'Escapamento Titanium', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/newescapamento.png', descricao: 'Ultra leve em titânio.' },
 ];
 
 export default function CatalogoPage() {
   const [filtroCategoria, setFiltroCategoria] = useState('Todos');
+  const [mensagemSucesso, setMensagemSucesso] = useState<string | null>(null);
 
-  // filtro
-  const categoriasPecas = ['Todos', 'Rodas e Pneus', 'Escapamento', 'Aerofolio'];
+  const categoriasPecas = ['Todos', 'Rodas e Pneus', 'Escapamento', 'Aerofólio'];
   
-  // Lógica do filtro
   const itensFiltrados = filtroCategoria === 'Todos' 
     ? pecasCatalogo 
     : pecasCatalogo.filter(item => item.categoria === filtroCategoria);
 
+  // Função para adicionar a peça direto no localStorage e atualizar o contador da Navbar
+  const adicionarAoCarrinho = (peca: typeof pecasCatalogo[0]) => {
+    const carrinhoAtualStr = localStorage.getItem("carrinho_customizacao");
+    let carrinhoAtual = [];
+    
+    try {
+      carrinhoAtual = carrinhoAtualStr ? JSON.parse(carrinhoAtualStr) : [];
+    } catch (e) {
+      carrinhoAtual = [];
+    }
+
+    const novoItem = {
+      nome: peca.categoria,
+      detalhe: peca.nome,
+      preco: peca.precoNum
+    };
+
+    carrinhoAtual.push(novoItem);
+
+    const novoTotal = carrinhoAtual.reduce((acc: number, item: { preco: number }) => acc + item.preco, 0);
+
+    localStorage.setItem("carrinho_customizacao", JSON.stringify(carrinhoAtual));
+    localStorage.setItem("carrinho_total", novoTotal.toString());
+
+    // Dispara o evento para atualizar o contador da Navbar em tempo real
+    window.dispatchEvent(new Event("storage_carrinho_atualizado"));
+
+    // Mostra um aviso rápido na tela
+    setMensagemSucesso(`"${peca.nome}" foi adicionado ao carrinho!`);
+    setTimeout(() => {
+      setMensagemSucesso(null);
+    }, 3000);
+  };
+
   return (
-    <div className="min-h-screen bg-[#0b0b0f] text-white pt-24 pb-16 px-4 md:px-8">
+    <div className="min-h-screen bg-[#0b0b0f] text-white pt-24 pb-16 px-4 md:px-8 relative">
+      
+      {/* Pop-up flutuante de sucesso */}
+      {mensagemSucesso && (
+        <div className="fixed bottom-6 right-6 z-50 bg-purple-600 text-white px-6 py-3 rounded-2xl shadow-2xl border border-purple-400 text-xs font-bold animate-bounce">
+          {mensagemSucesso}
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto">
         
-        {/* titulo principal e o desconto */}
+        {/* Título principal e o desconto */}
         <div className="mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 gap-6">
           <div>
             <h1 className="text-4xl font-extrabold mt-2">Catálogo de <span className="text-purple-500">Peças</span></h1>
@@ -66,12 +105,10 @@ export default function CatalogoPage() {
             </div>
           </aside>
 
-          {/* grid das peças */}
+          {/* Grid das peças */}
           <main className="flex-grow">
-            <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {itensFiltrados.map((item) => {
-                const linkHref = `/monte-seu-carro?modeloId=${item.id}`;
-
                 return (
                   <div 
                     key={item.id} 
@@ -83,7 +120,7 @@ export default function CatalogoPage() {
                       -10% na 1ª compra
                     </span>
 
-                    {/* Imagem  */}
+                    {/* Imagem */}
                     <div className="relative w-full h-48 bg-zinc-950 overflow-hidden flex items-center justify-center">
                       <img 
                         src={item.imagem} 
@@ -111,12 +148,15 @@ export default function CatalogoPage() {
                         <span className="text-[10px] text-gray-400 line-through">{item.precoOriginal}</span>
                         <span className="text-md font-extrabold text-purple-400">{item.precoPromo}</span>
                       </div>
-                      <Link 
-                        href={linkHref} 
-                        className="bg-purple-600/10 hover:bg-purple-600 border border-purple-500/30 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all text-center cursor-pointer"
+                      
+                      {/* Botão ADICIONAR transformado em button puro (sem Link) que joga no carrinho */}
+                      <button 
+                        onClick={() => adicionarAoCarrinho(item)} 
+                        className="bg-purple-600/10 hover:bg-purple-600 border border-purple-500/30 text-white 
+                        text-xs font-bold px-3 py-2 rounded-xl transition-all text-center cursor-pointer"
                       >
-                        ADICIONAR
-                      </Link>
+                        ADICIONAR AO CARRINHO
+                      </button>
                     </div>
                   </div>
                 );
