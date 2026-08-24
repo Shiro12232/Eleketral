@@ -22,7 +22,6 @@ const colorMap: Record<string, [number, number, number]> = {
   roxo: [0.5, 0.0, 0.6],
   verde: [0.0, 0.5, 0.2],
   vinho: [0.45, 0.05, 0.1],
-  
   caramelo: [0.6, 0.3, 0.1],
 };
 
@@ -47,7 +46,18 @@ function ConteudoMonteSeuCarro() {
   
   const [glassType, setGlassType] = useState("transparente");
   const [currentId, setCurrentId] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
+  // INICIA FECHADA (false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Estado para controlar o aviso temporário de 3 segundos
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Pega os dados da url
   useEffect(() => {
@@ -251,7 +261,6 @@ function ConteudoMonteSeuCarro() {
     { id: 'prata', bg: 'bg-gray-300' },
     { id: 'chumbo', bg: 'bg-zinc-600' },
     { id: 'preto', bg: 'bg-gray-950 border border-white/20' },
-    
   ];
 
   return (
@@ -272,16 +281,28 @@ function ConteudoMonteSeuCarro() {
         </div>
       </div>
 
-      {/* Botãozinho pra esconder o menu */}
+      {/* Botão para abrir/fechar a sidebar com o aviso temporário */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
-        <button 
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className={`bg-[#12121a]/95 hover:bg-purple-600 backdrop-blur-md border border-white/10 text-white p-3 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
-            isSidebarOpen ? 'translate-x-[420px] md:translate-x-[450px]' : 'translate-x-0'
-          }`}
-        >
-          {isSidebarOpen ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
-        </button>
+        <div className="relative">
+          <button 
+            onClick={() => {
+              setIsSidebarOpen(!isSidebarOpen);
+              setShowAlert(false);
+            }}
+            className={`bg-[#12121a]/95 hover:bg-purple-600 backdrop-blur-md border border-white/10 text-white p-3 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
+              isSidebarOpen ? 'translate-x-[420px] md:translate-x-[450px]' : 'translate-x-0'
+            }`}
+          >
+            {isSidebarOpen ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
+          </button>
+
+          {/* Aviso animado nos primeiros 3 segundos */}
+          {!isSidebarOpen && showAlert && (
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap animate-bounce border border-purple-400/40 pointer-events-none z-50 flex items-center gap-1.5">
+              <span>Clique para abrir o configurador!</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Sidebar de customização */}

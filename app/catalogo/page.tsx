@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 // catalogo principal
 const pecasCatalogo = [
-  { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas & Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda1.png', descricao: 'descrição.' },
-  { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas & Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda2.png', descricao: 'descrição.' },
-  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'Rodas & Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda3.png', descricao: 'descrição' },
+  { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda1.png', descricao: 'descrição.' },
+  { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda2.png', descricao: 'descrição.' },
+  { id: 3, nome: 'Pneu Toyo Tires', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/roda3.png', descricao: 'descrição' },
   { id: 4, nome: 'Aerofolio Spoiler', categoria: 'Aerofolio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/aerofolio.jpg', descricao: 'descrição' },
   { id: 5, nome: 'Aerofolio', categoria: 'Aerofolio', precoOriginal: 'R$ ? ', precoPromo: 'R$ ?', imagem: '/aerofolio2.jpg', descricao: 'descrição' },
   { id: 6, nome: 'Aerofolio', categoria: 'Aerofolio', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', imagem: '/aerofolio3.jpg', descricao: 'descrição' },
@@ -23,7 +23,7 @@ export default function CatalogoPage() {
   const [filtroCategoria, setFiltroCategoria] = useState('Todos');
 
   // filtro
-  const categoriasPecas = ['Todos', 'Rodas & Pneus', 'Escapamento', 'Aerofolio'];
+  const categoriasPecas = ['Todos', 'Rodas e Pneus', 'Escapamento', 'Aerofolio'];
   
   // Lógica do filtro
   const itensFiltrados = filtroCategoria === 'Todos' 
