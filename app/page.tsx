@@ -10,8 +10,8 @@ export default function Page() {
     <main>
       <Car3d />
       <About />
-      <Services />
       <Buildcar />
+      <Services/>
       
       <Navbar />
     </main>

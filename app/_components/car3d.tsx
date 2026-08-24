@@ -98,17 +98,12 @@ export default function Car3D({
           <span className="text-purple-400 font-semibold tracking-wider text-xs uppercase">MONTE DO SEU JEITO</span>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
             Personalize <br /> seu carro com <br />
-            <span className="bg-gradient-to-r from-purple-400 via-fuchsia-500 to-purple-600 bg-clip-text text-transparent">estilo e potência.</span>
+            <span className="bg-gradient-to-r from-purple-400 via-fuchsia-500/25 to-purple-600 bg-clip-text text-transparent">estilo e potência.</span>
           </h1>
           <p className="text-gray-400 text-base max-w-lg">Oferecemos os melhores serviços para customização do seu carro com as melhores peças.</p>
 
           <div className="flex flex-col items-center lg:items-start gap-4 pt-2">
-            <Link href="/selecionar-carro" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg max-w-max cursor-pointer">
-              Monte seu carro
-            </Link>
-            <Link href="/catalogo" className="bg-purple-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg w-max cursor-pointer">
-              Veja nossos produtos
-            </Link>
+           
           </div>
         </div>
 

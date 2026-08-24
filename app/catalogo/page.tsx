@@ -68,14 +68,15 @@ export default function CatalogoPage() {
 
           {/* grid das peças */}
           <main className="flex-grow">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {itensFiltrados.map((item) => {
                 const linkHref = `/monte-seu-carro?modeloId=${item.id}`;
 
                 return (
                   <div 
                     key={item.id} 
-                    className="bg-zinc-900/60 border border-purple-500/20 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-purple-500/60 transition-all group shadow-lg relative"
+                    className="bg-zinc-900/60 border border-purple-500 overflow-hidden flex flex-col justify-between hover:border-purple-500/60
+                     transition-all group shadow-lg relative"
                   >
                     {/* Tag de Desconto */}
                     <span className="absolute top-3 right-3 z-10 bg-purple-600/90 backdrop-blur-md text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-lg border border-purple-400/30">
