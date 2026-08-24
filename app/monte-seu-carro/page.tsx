@@ -181,7 +181,7 @@ function ConteudoMonteSeuCarro() {
 
   const handleAddToCart = () => {
     const itensConfigurados = [
-      { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 100000 },
+      { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 0 },
       { nome: "Pintura Externa", detalhe: selectedColor, preco: getPartPrice('carroceria', selectedColor) },
       { nome: "Rodas", detalhe: selectedWheelColor, preco: getPartPrice('rodas', selectedWheelColor) },
       { nome: "Bancos da Frente", detalhe: selectedFrontSeatColor, preco: getPartPrice('interior', selectedFrontSeatColor) },
