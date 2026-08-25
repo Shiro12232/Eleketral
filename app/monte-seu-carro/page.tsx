@@ -76,6 +76,7 @@ function ConteudoMonteSeuCarro() {
   const [exhaustMaterials, setExhaustMaterials] = useState<any[]>([]);
   
   // Específicos da BMW
+  
   const [innerPart22Materials, setInnerPart22Materials] = useState<any[]>([]);
   const [innerSide21Materials, setInnerSide21Materials] = useState<any[]>([]);
 
