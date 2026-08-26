@@ -77,7 +77,7 @@ export function Buildcar() {
         {/* Botão de ação para começar */}
         <div className="text-center">
           <Link
-            href="/monte-seu-carro"
+            href="/selecionar-carro"
             className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-8 py-4 
             rounded-xl shadow-lg shadow-purple-900/30 transition-all duration-300 hover:scale-105 cursor-pointer"
           >

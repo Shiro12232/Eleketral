@@ -512,7 +512,70 @@ function ConteudoMonteSeuCarro() {
       </div>
 
       {/* Painel de Debug no Canto Superior Direito */}
-      
+      <div className="absolute top-4 right-4 z-40 flex flex-col items-end">
+        <div className="flex items-center gap-2 mb-2">
+          {showDebugPanel && (
+            <button 
+              onClick={resetDebugColors}
+              className="bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1 shadow-lg cursor-pointer"
+            >
+              Resetar Cores
+            </button>
+          )}
+          <button 
+            onClick={() => setShowDebugPanel(!showDebugPanel)}
+            className="bg-black/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
+          >
+            <Bug size={14} /> {showDebugPanel ? "Ocultar Debug" : "Abrir Debug"}
+          </button>
+        </div>
+
+        {showDebugPanel && (
+          <div className="bg-black/95 backdrop-blur-xl border border-purple-500/30 p-4 rounded-2xl w-96 max-h-[500px] overflow-hidden shadow-2xl text-xs flex flex-col gap-3">
+            <div className="flex items-center justify-between border-b border-white/10 pb-2">
+              <div>
+                <span className="font-bold text-purple-400 uppercase tracking-wider block">Inspecionar Materiais</span>
+                <span className="text-[10px] text-gray-400">Pesquise e teste peças individualmente</span>
+              </div>
+              <span className="bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full text-[10px]">
+                {filteredDebugMaterials.length} / {allMaterialsDebug.length}
+              </span>
+            </div>
+
+            <div className="relative">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input 
+                type="text"
+                placeholder="Pesquisar por nome ou ID..."
+                value={debugSearchQuery}
+                onChange={(e) => setDebugSearchQuery(e.target.value)}
+                className="w-full bg-[#12121a] text-white pl-9 pr-3 py-2 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 text-xs placeholder-gray-500 transition-all"
+              />
+            </div>
+            
+            <div className="flex flex-col gap-2 overflow-y-auto max-h-72 pr-1">
+              {filteredDebugMaterials.length === 0 ? (
+                <span className="text-gray-400 italic text-center py-4">Nenhum material encontrado...</span>
+              ) : (
+                filteredDebugMaterials.map((mat, idx) => (
+                  <div key={idx} className="bg-[#12121a] p-2.5 rounded-xl border border-white/10 flex items-center justify-between gap-2">
+                    <div className="flex flex-col truncate">
+                      <span className="font-bold text-white truncate max-w-[200px]" title={mat.name}>{mat.name}</span>
+                      <span className="text-[10px] text-gray-400">ID: {mat.id}</span>
+                    </div>
+                    <button
+                      onClick={() => testPaintMaterialDebug(mat)}
+                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-2.5 py-1.5 rounded-lg text-[10px] transition-all cursor-pointer whitespace-nowrap shadow-md flex items-center gap-1"
+                    >
+                      <Palette size={12} /> Pintar de Verde
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Botão lateral para abrir configurador */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
@@ -626,17 +689,7 @@ function ConteudoMonteSeuCarro() {
             </>
           )}
 
-          {/* ========================================================= */}
-          {/* BLOCOS EXCLUSIVOS PARA NISSAN (só aparecem se for Nissan) */}
-          {/* ========================================================= */}
-          {isNissan && (
-            <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-cyan-500/30">
-              <span className="text-xs text-cyan-400 uppercase font-bold flex items-center gap-1.5">
-                <Sliders size={14} /> Detalhe Exclusivo (Nissan Silvia)
-              </span>
-              {renderColorGrid(selectedNissanCustomColor, setSelectedNissanCustomColor, 'pecaPequena')}
-            </div>
-          )}
+         
 
           {/* 7. Teto Interior */}
           <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">

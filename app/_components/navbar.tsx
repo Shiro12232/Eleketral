@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import { User, ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -51,7 +51,7 @@ export default function Navbar() {
       <nav className="flex-1 flex justify-center gap-8 text-gray-300 font-medium text-sm">
         <Link href="/" className="hover:text-purple-400 transition-colors">Início</Link>
         <Link href="/catalogo" className="hover:text-purple-400 transition-colors">Catálogo</Link>
-        <Link href="/monte-seu-carro" className="hover:text-purple-400 transition-colors">Monte seu carro</Link>
+        <Link href="/selecionar-carro" className="hover:text-purple-400 transition-colors">Monte seu carro</Link>
       </nav>
 
       {/* Ícones da direita  */}

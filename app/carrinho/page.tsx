@@ -8,7 +8,7 @@ interface ItemCarrinho {
   nome: string;
   detalhe: string;
   preco: number;
-  imagem?: string; // Adicionado para suportar a imagem do produto
+  imagem?: string; 
 }
 
 export default function CarrinhoPage() {

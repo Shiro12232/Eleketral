@@ -100,7 +100,7 @@ export default function Car3D({
             Personalize <br /> seu carro com <br />
             <span className="bg-gradient-to-r from-purple-400 via-fuchsia-500/25 to-purple-600 bg-clip-text text-transparent">estilo e potência.</span>
           </h1>
-          <p className="text-gray-400 text-base max-w-lg">Oferecemos os melhores serviços para customização do seu carro com as melhores peças.</p>
+          <p className="text-gray-400 text-base max-w-lg">Customize com variados tipos de personalização e confira o catálogo para dar uma turbinada no seu carro.</p>
 
           <div className="flex flex-col items-center lg:items-start gap-4 pt-2">
            

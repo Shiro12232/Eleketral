@@ -7,20 +7,20 @@ export function Services() {
     {
       icon: <Wrench className="w-6 h-6 text-purple-400" />,
       title: "Instalação de Peças",
-      description: "Serviço de montagem e instalação profissional de acessórios e componentes automotivos com total segurança e precisão.",
-      duration: "1h a 3h",
+      description: "Serviço de montagem e instalação profissional de acessórios e componentes automotivos com total segurança.",
+      
     },
     {
       icon: <Tag className="w-6 h-6 text-purple-400" />,
       title: "Customização Estética",
       description: "Estilize e personalize seu carro do seu jeito.",
-      duration: "2h a 5h",
+      
     },
     {
       icon: <CircleCheckBig className="w-6 h-6 text-purple-400" />,
-      title: "Revisão e Diagnóstico",
-      description: "Análise completa do estado das peças e componentes do seu carro para garantir viagens seguras e alto desempenho.",
-      duration: "1h",
+      title: "Pintor automotivo de qualidade",
+      description: "Serviço de pintura profissional com tintas de primeira linha e acabamento impecável para o seu veículo.",
+      
     },
   ];
 
@@ -56,11 +56,8 @@ export function Services() {
               </div>
 
               {/* botao e duração*/}
-              <div className="pt-4 border-t border-gray-800/80 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-gray-400 text-sm">
-                  <Clock className="w-4 h-4 text-purple-400" />
-                  <span>{service.duration}</span>
-                </div>
+              <div className="pt-4 border-t border-gray-800/80 flex justify-center ">
+               
 
                 <Link
                   href="https://wa.me/5521985963459?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços!"

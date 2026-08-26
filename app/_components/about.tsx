@@ -40,8 +40,7 @@ export function About() {
             </h2>
 
             <p className="text-gray-400 text-base leading-relaxed">
-              Especialistas em performance e estética automotiva. Oferecemos peças e acessórios exclusivos para quem busca personalizar e potencializar seu carro com estilo, 
-              segurança e o melhor desempenho.
+              Trabalhamos com protótipos 3D para você personalizar seu carro da forma que quiser, além do catálogo de peças para turbinar o seu veículo.
             </p>
 
             {/* os certificados */}

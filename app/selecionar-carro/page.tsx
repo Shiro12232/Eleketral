@@ -50,14 +50,19 @@ export default function SelecionarCarroPage() {
   const router = useRouter();
 
   const selecionarCarro = (carro: any) => {
-    // Salva os dados do carro 
+    // Salva os dados do carro no localStorage
     localStorage.setItem("projeto_marca", carro.marca);
     localStorage.setItem("projeto_modelo", carro.modelo);
-    localStorage.setItem("projeto_ano", carro.ano);
+    if (carro.ano) localStorage.setItem("projeto_ano", carro.ano);
     localStorage.setItem("projeto_link3d", carro.link3d);
 
-    // Redireciona para o configurador passando o link 3D 
-    router.push(`/monte-seu-carro?view3d=${encodeURIComponent(carro.link3d)}`);
+    // Se o carro tiver um 'slug' definido, vai para a rota limpa [modelo]
+    if (carro.slug) {
+      router.push(`/monte-seu-carro/${carro.slug}`);
+    } else {
+      // Se não tiver slug (carros antigos), continua usando a URL padrão antiga
+      router.push(`/monte-seu-carro?view3d=${encodeURIComponent(carro.link3d)}`);
+    }
   };
 
   const carros = [
@@ -65,41 +70,50 @@ export default function SelecionarCarroPage() {
       id: 1, 
       imagens: ["/bmww1.jpg", "/bmw2.png", "/bmw3.png"],
       marca: "BMW", 
-      modelo: "M3 G80", 
-        
+      modelo: "M3 G80",
+      slug: "bmw", // <--- Adicionei o slug aqui também caso queira usar na nova rota
       link3d: "https://sketchfab.com/models/bb30c32dc0624ca89bd865aed5214ca3" 
     },
-    { 
-      id: 2, 
-      imagens: ["/Nissan1.png", "/Nissan2.png", "/Nissan3.png" ], 
-      marca: "Nissan", 
-      modelo: "Mak Nissan S15 Silvia ", 
-        
-      link3d: "https://sketchfab.com/3d-models/2018-garage-mak-nissan-s15-silvia-reggie-mah-76c47541645348969a1a85ae53e92e5c" 
+    {
+      id: 2,
+      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      marca: "Lamborghini",
+      modelo: "Aventador",
+      slug: "lamborghini",
+      link3d: "https://sketchfab.com/3d-models/lamborghini-aventador-svj-twin-turbo-mansory-7110e6d471184c53a838f7015493d2c9"
     },
-    { 
-      id: 3, 
-      imagens: ["/etron1.png", "/etron2.png","/etron3.png"], 
-      marca: "Audi", 
-      modelo: "e-tron GT", 
-        
-      link3d: "https://sketchfab.com/models/e35726151c9e4a169c005d54509715fa" 
+    {
+      id: 3,
+      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      marca: "Mercedes",
+      modelo: "S65 AMG Coupe",
+      slug: "mercedes",
+      link3d: "https://sketchfab.com/3d-models/2015-mercedes-benz-s65-amg-coupe-a9a2e24df28049ce83e9c35cc1a2b3fa"
     },
     {
       id: 4,
-      imagens: ["/bugatti.jpg", "/logan.jpg"],
-      marca: "Bugatti",
-      modelo: "Chiron Golden Era",
-      link3d: "https://sketchfab.com/3d-models/bugatti-chiron-golden-era-fe14b2d41c3e409192d16be61a44c216"
+      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      marca: "Alfa Romeo",
+      modelo: "155 Q4",
+      slug: "alfa",
+      link3d: "https://sketchfab.com/3d-models/1992-alfa-romeo-155-q4-9be37de2d57d4c93bd472637a42b9db3"
     },
     {
       id: 5,
       imagens: ["/logan.jpg", "/aerofolio.jpg"],
-      marca: "Logan",
-      modelo: "Dacia",
-      link3d: "https://sketchfab.com/3d-models/dacia-logan-22d04d5ff4e7439e826c86d8a2931fa1"
+      marca: "Infiniti",
+      modelo: "QX80",
+      slug: "infiniti",
+      link3d: "https://sketchfab.com/3d-models/2021-infiniti-qx80-ed9cdb2c7fc04459bd51e316b7928fb5"
     },
-    
+    {
+      id: 5,
+      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      marca: "Infiniti",
+      modelo: "QX80",
+      slug: "ferrari",
+      link3d: "https://sketchfab.com/3d-models/2011-yamaha-xj6f-cc14ac89d6b14f94b72ee98ae76b1328"
+    },
   ];
 
   return (
