@@ -8,7 +8,7 @@ export default function Navbar() {
   const [qtdItens, setQtdItens] = useState(0);
 
   useEffect(() => {
-    // Função para verificar quantos itens estão salvos no carrinho
+    //  verificar quantos itens estão salvos no carrinho
     const atualizarContador = () => {
       const itensSalvos = localStorage.getItem("carrinho_customizacao");
       if (itensSalvos) {
@@ -23,10 +23,10 @@ export default function Navbar() {
       }
     };
 
-    // Executa ao carregar o componente na tela
+    
     atualizarContador();
 
-    // Ouve o evento disparado pelo configurador 3D quando o usuário clica em adicionar
+    
     window.addEventListener("storage_carrinho_atualizado", atualizarContador);
     
     return () => {
@@ -59,7 +59,7 @@ export default function Navbar() {
         
         
 
-        {/* Carrinho com contador dinâmico */}
+        {/* Carrinho com contador  */}
         <Link 
           href="/carrinho" 
           aria-label="Carrinho de compras" 
@@ -67,7 +67,7 @@ export default function Navbar() {
         >
           <ShoppingCart size={20} />
           
-          {/* Mostra o número de itens ou o raiozinho se houver itens */}
+          {/* Mostra o número de itens  */}
           {qtdItens > 0 && (
             <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-lg animate-bounce">
               {qtdItens}

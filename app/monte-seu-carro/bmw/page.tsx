@@ -49,6 +49,11 @@ function ColorPickerCustom({
   const [hue, setHue] = useState(0);
   const [sat, setSat] = useState(100);
   const [light, setLight] = useState(50);
+  const [localHex, setLocalHex] = useState(selectedColorHex);
+
+  useEffect(() => {
+    setLocalHex(selectedColorHex);
+  }, [selectedColorHex]);
 
   const handleHslToHex = (h: number, s: number, l: number) => {
     s /= 100;
@@ -62,75 +67,106 @@ function ColorPickerCustom({
       .toUpperCase();
   };
 
-  const updateWithValues = (h: number, s: number, l: number) => {
-    const hex = handleHslToHex(h, s, l);
-    onChangeColor(hex);
-  };
-
   return (
-    <div className="flex flex-col gap-3 bg-[#12121a] p-3 rounded-2xl border border-white/10">
-      {/* Área de Saturação e Luminosidade */}
+    <div className="flex flex-col gap-3 bg-[#12121a] p-3 rounded-2xl border border-white/10 select-none">
+      {/* Área de Saturação e Luminosidade (Pintura Externa / Rodas) */}
       <div 
         className="relative w-full h-32 rounded-xl cursor-crosshair overflow-hidden shadow-inner"
         style={{
           background: `linear-gradient(to bottom, transparent, #000), linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))`
         }}
         onMouseDown={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const move = (event: MouseEvent) => {
-            let x = event.clientX - rect.left;
-            let y = event.clientY - rect.top;
-            x = Math.max(0, Math.min(x, rect.width));
-            y = Math.max(0, Math.min(y, rect.height));
+          const container = e.currentTarget.getBoundingClientRect();
+          let lastCall = 0;
+
+          const calculateColor = (clientX: number, clientY: number, forceApply: boolean) => {
+            let x = clientX - container.left;
+            let y = clientY - container.top;
+            x = Math.max(0, Math.min(x, container.width));
+            y = Math.max(0, Math.min(y, container.height));
             
-            const newSat = (x / rect.width) * 100;
-            const newLight = 50 - ((y / rect.height) * 50);
+            const newSat = (x / container.width) * 100;
+            const newLight = 50 - ((y / container.height) * 50);
             
             setSat(newSat);
             setLight(newLight);
-            updateWithValues(hue, newSat, newLight);
+            
+            const hex = handleHslToHex(hue, newSat, newLight);
+            setLocalHex(hex); // Preview ultra-rápido na tela
+            
+            const now = Date.now();
+            // Limita as chamadas pesadas ao Sketchfab para no máximo a cada 50ms (evita o travamento)
+            if (forceApply || (now - lastCall > 50)) {
+              lastCall = now;
+              onChangeColor(hex); 
+            }
           };
-          move(e.nativeEvent);
-          const onMouseUp = () => {
-            window.removeEventListener("mousemove", move);
+
+          calculateColor(e.clientX, e.clientY, false);
+
+          const onMouseMove = (moveEvent: MouseEvent) => {
+            calculateColor(moveEvent.clientX, moveEvent.clientY, false);
+          };
+
+          const onMouseUp = (upEvent: MouseEvent) => {
+            calculateColor(upEvent.clientX, upEvent.clientY, true); // Garante a cor exata ao soltar
+            window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("mouseup", onMouseUp);
           };
-          window.addEventListener("mousemove", move);
+
+          window.addEventListener("mousemove", onMouseMove);
           window.addEventListener("mouseup", onMouseUp);
         }}
       />
 
       {/* Slider de Matiz (Hue) */}
       <div 
-        className="relative w-full h-5 rounded-lg cursor-pointer"
+        className="relative w-full h-5 rounded-lg cursor-pointer overflow-hidden"
         style={{
           background: 'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)'
         }}
         onMouseDown={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const move = (event: MouseEvent) => {
-            let x = event.clientX - rect.left;
-            x = Math.max(0, Math.min(x, rect.width));
-            const newHue = (x / rect.width) * 360;
+          const container = e.currentTarget.getBoundingClientRect();
+          let lastCall = 0;
+
+          const calculateHue = (clientX: number, forceApply: boolean) => {
+            let x = clientX - container.left;
+            x = Math.max(0, Math.min(x, container.width));
+            const newHue = (x / container.width) * 360;
             
             setHue(newHue);
-            updateWithValues(newHue, sat, light);
+            const hex = handleHslToHex(newHue, sat, light);
+            setLocalHex(hex);
+
+            const now = Date.now();
+            if (forceApply || (now - lastCall > 50)) {
+              lastCall = now;
+              onChangeColor(hex);
+            }
           };
-          move(e.nativeEvent);
-          const onMouseUp = () => {
-            window.removeEventListener("mousemove", move);
+
+          calculateHue(e.clientX, false);
+
+          const onMouseMove = (moveEvent: MouseEvent) => {
+            calculateHue(moveEvent.clientX, false);
+          };
+
+          const onMouseUp = (upEvent: MouseEvent) => {
+            calculateHue(upEvent.clientX, true);
+            window.removeEventListener("mousemove", onMouseMove);
             window.removeEventListener("mouseup", onMouseUp);
           };
-          window.addEventListener("mousemove", move);
+
+          window.addEventListener("mousemove", onMouseMove);
           window.addEventListener("mouseup", onMouseUp);
         }}
       />
 
-      {/* Preview, Hex e Preço */}
+      {/* Preview e Preço */}
       <div className="flex items-center justify-between text-xs pt-1 border-t border-white/5">
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded-md border border-white/20 shadow-sm" style={{ backgroundColor: selectedColorHex }} />
-          <span className="text-gray-400 font-mono">{selectedColorHex}</span>
+          <div className="w-5 h-5 rounded-md border border-white/20 shadow-sm" style={{ backgroundColor: localHex }} />
+          <span className="text-gray-400 font-mono">{localHex}</span>
         </div>
         <span className="text-emerald-400 font-bold">+ R$ {preco.toLocaleString('pt-BR')}</span>
       </div>
@@ -641,13 +677,13 @@ function ConteudoMonteSeuCarro() {
             <>
               <div className="flex flex-col gap-2">
                 <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-                  <Armchair size={14} /> Parte Interna (mat_237_22)
+                  <Armchair size={14} /> Parte Interna 
                 </span>
                 <ColorPickerCustom selectedColorHex={selectedInner22Color} onChangeColor={setSelectedInner22Color} preco={getPartPrice('interior', selectedInner22Color)} />
               </div>
               <div className="flex flex-col gap-2">
                 <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-                  <Armchair size={14} /> Parte Interna Lateral (mat_237_21)
+                  <Armchair size={14} /> Parte Interna Lateral 
                 </span>
                 <ColorPickerCustom selectedColorHex={selectedInner21Color} onChangeColor={setSelectedInner21Color} preco={getPartPrice('interior', selectedInner21Color)} />
               </div>

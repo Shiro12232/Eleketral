@@ -477,59 +477,7 @@ function ConteudoMonteSeuCarro() {
         </div>
       </div>
 
-      {/* Painel de Debug */}
-      <div className="absolute top-4 right-4 z-40 flex flex-col items-end">
-        <div className="flex items-center gap-2 mb-2">
-          <button 
-            onClick={() => setShowDebugPanel(!showDebugPanel)}
-            className="bg-black/85 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 px-3 py-1.5 rounded-xl text-xs font-bold backdrop-blur-md transition-all flex items-center gap-1.5 shadow-lg cursor-pointer"
-          >
-            <Bug size={14} /> {showDebugPanel ? "Ocultar Debug" : "Abrir Debug"}
-          </button>
-        </div>
-
-        {showDebugPanel && (
-          <div className="bg-black/95 backdrop-blur-xl border border-purple-500/30 p-4 rounded-2xl w-96 max-h-[500px] overflow-hidden shadow-2xl text-xs flex flex-col gap-3">
-            <div className="flex items-center justify-between border-b border-white/10 pb-2">
-              <div>
-                <span className="font-bold text-purple-400 uppercase tracking-wider block">Inspecionar 18 Materiais</span>
-                <span className="text-[10px] text-gray-400">Total listados: {allMaterialsDebug.length}</span>
-              </div>
-              <span className="bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full text-[10px]">
-                {filteredDebugMaterials.length}
-              </span>
-            </div>
-
-            <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input 
-                type="text"
-                placeholder="Pesquisar..."
-                value={debugSearchQuery}
-                onChange={(e) => setDebugSearchQuery(e.target.value)}
-                className="w-full bg-[#12121a] text-white pl-9 pr-3 py-2 rounded-xl border border-white/10 focus:outline-none focus:border-purple-500 text-xs placeholder-gray-500 transition-all"
-              />
-            </div>
-            
-            <div className="flex flex-col gap-2 overflow-y-auto max-h-72 pr-1">
-              {filteredDebugMaterials.map((mat, idx) => (
-                <div key={idx} className="bg-[#12121a] p-2.5 rounded-xl border border-white/10 flex items-center justify-between gap-2">
-                  <div className="flex flex-col truncate">
-                    <span className="font-bold text-white truncate max-w-[200px]" title={mat.name}>{mat.name}</span>
-                    <span className="text-[10px] text-gray-400">ID: {mat.id}</span>
-                  </div>
-                  <button
-                    onClick={() => testPaintMaterialDebug(mat)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-2.5 py-1.5 rounded-lg text-[10px] transition-all cursor-pointer whitespace-nowrap shadow-md flex items-center gap-1"
-                  >
-                    <Palette size={12} /> Pintar
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+     
 
       {/* Botão lateral */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
@@ -548,7 +496,7 @@ function ConteudoMonteSeuCarro() {
 
           {!isSidebarOpen && showAlert && (
             <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap animate-bounce border border-purple-400/40 pointer-events-none z-50 flex items-center gap-1.5">
-              <span>Abra o configurador com os 18 materiais!</span>
+              <span>Clique para abrir o configurador!</span>
             </div>
           )}
         </div>

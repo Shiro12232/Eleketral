@@ -46,7 +46,7 @@ export default function CarrinhoPage() {
     limparCarrinho();
   };
 
-  // Tela de Sucesso (Mais calorosa)
+  // finalizador do pedido
   if (finalizado) {
     return (
       <main className="min-h-screen bg-[#0b0b0f] text-white flex flex-col items-center justify-center p-6 text-center">
@@ -83,7 +83,7 @@ export default function CarrinhoPage() {
           
         </div>
 
-        {/* Se o carrinho estiver vazio */}
+        {/* carrinho  vazio */}
         {itens.length === 0 ? (
           <div className="bg-zinc-900/40 border border-zinc-800/80 p-16 rounded-3xl text-center flex flex-col items-center gap-5 shadow-inner">
             <div className="w-16 h-16 bg-zinc-800/50 rounded-2xl flex items-center justify-center text-gray-500">
@@ -105,7 +105,7 @@ export default function CarrinhoPage() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
-            {/* Lista de Itens (Ocupa 2 colunas) */}
+            {/* Lista de Itens  */}
             <div className="lg:col-span-2 flex flex-col gap-4">
               <div className="flex justify-between items-center px-2">
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Peças Selecionadas ({itens.length})</span>
@@ -139,7 +139,7 @@ export default function CarrinhoPage() {
               </div>
             </div>
 
-            {/* Resumo do Pedido (Ocupa 1 coluna ao lado) */}
+            {/* Resumo do Pedido */}
             <div className="bg-zinc-900/80 border border-zinc-800 p-6 rounded-2xl flex flex-col gap-6 shadow-xl sticky top-28 backdrop-blur-md">
               <h2 className="text-sm font-bold text-white uppercase tracking-wider border-b border-zinc-800 pb-3">Resumo do Pedido</h2>
               

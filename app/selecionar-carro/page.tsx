@@ -68,15 +68,15 @@ export default function SelecionarCarroPage() {
   const carros = [
     { 
       id: 1, 
-      imagens: ["/bmww1.jpg", "/bmw2.png", "/bmw3.png"],
+      imagens: ["/mbw1.png", "/bmw2.png", "/bmw3.png"],
       marca: "BMW", 
       modelo: "M3 G80",
-      slug: "bmw", // <--- Adicionei o slug aqui também caso queira usar na nova rota
+      slug: "bmw", 
       link3d: "https://sketchfab.com/models/bb30c32dc0624ca89bd865aed5214ca3" 
     },
     {
       id: 2,
-      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      imagens: ["/lamburguini1.png", "/lamburguini2.png","/lamburguini3.png"],
       marca: "Lamborghini",
       modelo: "Aventador",
       slug: "lamborghini",
@@ -84,7 +84,7 @@ export default function SelecionarCarroPage() {
     },
     {
       id: 3,
-      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      imagens: ["/mercedes11.png", "/mercedes22.png", "/mercedes33.png"],
       marca: "Mercedes",
       modelo: "S65 AMG Coupe",
       slug: "mercedes",
@@ -92,7 +92,7 @@ export default function SelecionarCarroPage() {
     },
     {
       id: 4,
-      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      imagens: ["/alfa1.png", "/alfa2.png", "/alfa3.png"],
       marca: "Alfa Romeo",
       modelo: "155 Q4",
       slug: "alfa",
@@ -100,20 +100,13 @@ export default function SelecionarCarroPage() {
     },
     {
       id: 5,
-      imagens: ["/logan.jpg", "/aerofolio.jpg"],
+      imagens: ["/infiniti1.png", "/infiniti2.png", "/infiniti3.png"],
       marca: "Infiniti",
       modelo: "QX80",
       slug: "infiniti",
       link3d: "https://sketchfab.com/3d-models/2021-infiniti-qx80-ed9cdb2c7fc04459bd51e316b7928fb5"
     },
-    {
-      id: 5,
-      imagens: ["/logan.jpg", "/aerofolio.jpg"],
-      marca: "Infiniti",
-      modelo: "QX80",
-      slug: "ferrari",
-      link3d: "https://sketchfab.com/3d-models/2011-yamaha-xj6f-cc14ac89d6b14f94b72ee98ae76b1328"
-    },
+    
   ];
 
   return (

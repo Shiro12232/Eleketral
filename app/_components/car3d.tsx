@@ -37,7 +37,7 @@ function CarModel({ bodyColor = "#90309B", rimColor = "#ef4444", grilleColor = "
     }
     const plateTexture = new THREE.CanvasTexture(canvas);
 
-    // aplicar as cores
+    // cor do carro
     scene.traverse((child: any) => {
       if (child.isMesh) {
         child.castShadow = true;

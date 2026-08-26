@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-// Catálogo principal com valores numéricos para o carrinho
+// Catálogo principal
 const pecasCatalogo = [
   { id: 1, nome: 'Aro Work VS-XX', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/roda1.png', descricao: 'Aro esportivo de alta performance.' },
   { id: 2, nome: 'Calota Porsche Rim', categoria: 'Rodas e Pneus', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/roda2.png', descricao: 'Calota com acabamento premium.' },
@@ -27,7 +27,7 @@ export default function CatalogoPage() {
     ? pecasCatalogo 
     : pecasCatalogo.filter(item => item.categoria === filtroCategoria);
 
-  // Função para adicionar a peça direto no localStorage e atualizar o contador da Navbar
+  // colocar peça no localStorage e colocar no carrinho
   const adicionarAoCarrinho = (peca: typeof pecasCatalogo[0]) => {
     const carrinhoAtualStr = localStorage.getItem("carrinho_customizacao");
     let carrinhoAtual = [];
@@ -51,10 +51,10 @@ export default function CatalogoPage() {
     localStorage.setItem("carrinho_customizacao", JSON.stringify(carrinhoAtual));
     localStorage.setItem("carrinho_total", novoTotal.toString());
 
-    // Dispara o evento para atualizar o contador da Navbar em tempo real
+    //  atualizar o contador da Navbar em tempo real
     window.dispatchEvent(new Event("storage_carrinho_atualizado"));
 
-    // Mostra um aviso rápido na tela
+    // aviso de adicionado 
     setMensagemSucesso(`"${peca.nome}" foi adicionado ao carrinho!`);
     setTimeout(() => {
       setMensagemSucesso(null);
@@ -64,7 +64,7 @@ export default function CatalogoPage() {
   return (
     <div className="min-h-screen bg-[#0b0b0f] text-white pt-24 pb-16 px-4 md:px-8 relative">
       
-      {/* Pop-up flutuante de sucesso */}
+      {/* Pop-up de sucesso */}
       {mensagemSucesso && (
         <div className="fixed bottom-6 right-6 z-50 bg-purple-600 text-white px-6 py-3 rounded-2xl shadow-2xl border border-purple-400 text-xs font-bold animate-bounce">
           {mensagemSucesso}
@@ -73,7 +73,7 @@ export default function CatalogoPage() {
 
       <div className="max-w-7xl mx-auto">
         
-        {/* Título principal e o desconto */}
+        {/*  desconto */}
         <div className="mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 gap-6">
           <div>
             <h1 className="text-4xl font-extrabold mt-2">Catálogo de <span className="text-purple-500">Peças</span></h1>
@@ -149,7 +149,7 @@ export default function CatalogoPage() {
                         <span className="text-md font-extrabold text-purple-400">{item.precoPromo}</span>
                       </div>
                       
-                      {/* Botão ADICIONAR transformado em button puro (sem Link) que joga no carrinho */}
+                      {/* Botão ADICIONAR */}
                       <button 
                         onClick={() => adicionarAoCarrinho(item)} 
                         className="bg-purple-600/10 hover:bg-purple-600 border border-purple-500/30 text-white 
@@ -163,7 +163,7 @@ export default function CatalogoPage() {
               })}
             </div>
 
-            {/* Caso não ache nada */}
+            {/* filtro quando nao tem nada */}
             {itensFiltrados.length === 0 && (
               <div className="text-center text-gray-500 py-20 border border-zinc-800/50 bg-zinc-900/20 rounded-2xl">
                 Nenhum item encontrado nesta categoria.
