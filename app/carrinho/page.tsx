@@ -8,7 +8,7 @@ interface ItemCarrinho {
   nome: string;
   detalhe: string;
   preco: number;
-  imagem?: string; 
+ 
 }
 
 export default function CarrinhoPage() {
@@ -119,13 +119,7 @@ export default function CarrinhoPage() {
                   <div key={index} className="bg-zinc-900/60 border border-zinc-800/80 p-4 rounded-2xl flex items-center justify-between gap-4 transition-all hover:border-purple-500/40">
                     <div className="flex items-center gap-3.5">
                       {/* Substituído o ícone Wrench pela imagem do produto (ou placeholder se não tiver) */}
-                      <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center shrink-0">
-                        {item.imagem ? (
-                          <img src={item.imagem} alt={item.detalhe} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-[10px] text-gray-500"></span>
-                        )}
-                      </div>
+                     
                       <div>
                         <span className="text-xs font-bold text-gray-300 uppercase tracking-wider block">{item.nome}</span>
                         <span className="text-sm font-extrabold text-white capitalize">{item.detalhe}</span>

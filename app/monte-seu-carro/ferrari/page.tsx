@@ -188,8 +188,8 @@ function ConteudoMonteSeuCarro() {
       { nome: "Bancos da Frente", detalhe: selectedFrontSeatColor, preco: getPartPrice('interior', selectedFrontSeatColor) },
       { nome: "Bancos Traseiros", detalhe: selectedInteriorColor, preco: getPartPrice('interior', selectedInteriorColor) },
       ...(isBmw ? [
-        { nome: "Parte Interna (mat_237_22)", detalhe: selectedInner22Color, preco: getPartPrice('interior', selectedInner22Color) },
-        { nome: "Parte Interna Lateral (mat_237_21)", detalhe: selectedInner21Color, preco: getPartPrice('interior', selectedInner21Color) }
+        { nome: "Parte Interna ", detalhe: selectedInner22Color, preco: getPartPrice('interior', selectedInner22Color) },
+        { nome: "Parte Interna Lateral", detalhe: selectedInner21Color, preco: getPartPrice('interior', selectedInner21Color) }
       ] : []),
       ...(isNissan ? [
         { nome: "Detalhe Exclusivo Nissan", detalhe: selectedNissanCustomColor, preco: getPartPrice('pecaPequena', selectedNissanCustomColor) }

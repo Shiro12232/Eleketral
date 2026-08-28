@@ -234,24 +234,24 @@ function ConteudoMonteSeuCarro() {
   const handleAddToCart = () => {
     const itensConfigurados = [
       { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 0 },
-      { nome: "1. CarPaint (Pintura Carro)", detalhe: cCarPaint, preco: precos.carPaint },
-      { nome: "2. Black_Shine", detalhe: cBlackShine, preco: precos.blackShine },
-      { nome: "3. Tire_Texture", detalhe: cTireTexture, preco: precos.tireTexture },
-      { nome: "4. Plastic_Black", detalhe: cPlasticBlack, preco: precos.plasticBlack },
-      { nome: "5. Chrome", detalhe: cChrome, preco: precos.chrome },
-      { nome: "6. Glass_Light", detalhe: cGlassLight, preco: precos.glassLight },
-      { nome: "7. Leather_Color_B", detalhe: cLeatherColorB, preco: precos.leatherColorB },
-      { nome: "8. D_Gray", detalhe: cDGray, preco: precos.dGray },
-      { nome: "9. Leather_Plas_B", detalhe: cLeatherPlasB, preco: precos.leatherPlasB },
-      { nome: "10. Glass_surr", detalhe: cGlassSurr, preco: precos.glassSurr },
-      { nome: "11. Leather_Dots_Col", detalhe: cLeatherDotsCol, preco: precos.leatherDotsCol },
+      { nome: "1. Pintura Carro", detalhe: cCarPaint, preco: precos.carPaint },
+      { nome: "2. Laterais do Vidro", detalhe: cBlackShine, preco: precos.blackShine },
+      { nome: "3. Pneus", detalhe: cTireTexture, preco: precos.tireTexture },
+      { nome: "4. Parachoque", detalhe: cPlasticBlack, preco: precos.plasticBlack },
+      { nome: "5. Laterais Exterior", detalhe: cChrome, preco: precos.chrome },
+      { nome: "6. Freios e Faróis", detalhe: cGlassLight, preco: precos.glassLight },
+      { nome: "7. Bancos", detalhe: cLeatherColorB, preco: precos.leatherColorB },
+      { nome: "8. Rodas", detalhe: cDGray, preco: precos.dGray },
+      { nome: "9. Interior do carro", detalhe: cLeatherPlasB, preco: precos.leatherPlasB },
+      { nome: "10. Contorno dos Vidros", detalhe: cGlassSurr, preco: precos.glassSurr },
+      { nome: "11. Banco de trás", detalhe: cLeatherDotsCol, preco: precos.leatherDotsCol },
       { nome: "12. Chassis", detalhe: cChassis, preco: precos.chassis },
-      { nome: "13. Rubber", detalhe: cRubber, preco: precos.rubber },
-      { nome: "14. Breaks_disk", detalhe: cBreaksDisk, preco: precos.breaksDisk },
-      { nome: "15. Chrome_Color", detalhe: cChromeColor, preco: precos.chromeColor },
-      { nome: "16. Leather_B", detalhe: cLeatherB, preco: precos.leatherB },
+      { nome: "13. Lateral e Teto Solar", detalhe: cRubber, preco: precos.rubber },
+      { nome: "14. Disco de Roda", detalhe: cBreaksDisk, preco: precos.breaksDisk },
+      { nome: "15. Laterais do Parachoque", detalhe: cChromeColor, preco: precos.chromeColor },
+      { nome: "16. Interior", detalhe: cLeatherB, preco: precos.leatherB },
       { nome: "17. Chrome_Black", detalhe: cChromeBlack, preco: precos.chromeBlack },
-      { nome: "18. Estilo dos Vidros", detalhe: glassType, preco: precos.vidros },
+      { nome: "18. Escada das portas", detalhe: glassType, preco: precos.vidros },
     ];
 
     localStorage.setItem("carrinho_customizacao", JSON.stringify(itensConfigurados));
@@ -546,7 +546,7 @@ function ConteudoMonteSeuCarro() {
 
           {/* 2. Black_Shine */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold">2. Laterais Vidro</span>
+            <span className="text-xs text-purple-400 uppercase font-bold">2. Laterais do Vidro</span>
             <ColorPickerCustom selectedColorHex={cBlackShine} onChangeColor={setCBlackShine} preco={precos.blackShine} />
           </div>
 
@@ -588,19 +588,19 @@ function ConteudoMonteSeuCarro() {
 
           {/* 9. Leather_Plas_B */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold">9. Interior Carro</span>
+            <span className="text-xs text-purple-400 uppercase font-bold">9. Interior do Carro</span>
             <ColorPickerCustom selectedColorHex={cLeatherPlasB} onChangeColor={setCLeatherPlasB} preco={precos.leatherPlasB} />
           </div>
 
           {/* 10. Glass_surr */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold">10. Contorno Vidros</span>
+            <span className="text-xs text-purple-400 uppercase font-bold">10. Contorno dos Vidros</span>
             <ColorPickerCustom selectedColorHex={cGlassSurr} onChangeColor={setCGlassSurr} preco={precos.glassSurr} />
           </div>
 
           {/* 11. Leather_Dots_Col */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold">11. Banco Trás</span>
+            <span className="text-xs text-purple-400 uppercase font-bold">11. Banco de Trás</span>
             <ColorPickerCustom selectedColorHex={cLeatherDotsCol} onChangeColor={setCLeatherDotsCol} preco={precos.leatherDotsCol} />
           </div>
 

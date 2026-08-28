@@ -220,8 +220,8 @@ function ConteudoMonteSeuCarro() {
       { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 0 },
       { nome: "Pintura Externa", detalhe: selectedColor, preco: pricingRules.carroceria },
       { nome: "Interior", detalhe: selectedInteriorColor, preco: pricingRules.interior },
-      { nome: "Parte de Baixo (Black / plas_R)", detalhe: selectedParteBaixoColor, preco: pricingRules.pecaPequena },
-      { nome: "Parabrisa e Laterais do Vidro (plasGloss)", detalhe: selectedParabrisaLateralColor, preco: pricingRules.pecaPequena },
+      { nome: "Parte de Baixo", detalhe: selectedParteBaixoColor, preco: pricingRules.pecaPequena },
+      { nome: "Parabrisa e Laterais ", detalhe: selectedParabrisaLateralColor, preco: pricingRules.pecaPequena },
       { nome: "Estilo dos Vidros", detalhe: glassType, preco: glassType === "preto" ? 800 : 0 },
     ];
 

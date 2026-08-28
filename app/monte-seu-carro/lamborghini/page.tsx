@@ -222,8 +222,8 @@ function ConteudoMonteSeuCarro() {
     const itensConfigurados = [
       { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 0 },
       { nome: "Pintura Externa", detalhe: selectedColor, preco: pricingRules.carroceria },
-      { nome: "Material.131 (Parachoque)", detalhe: selectedParachoqueColor, preco: pricingRules.pecaPequena },
-      { nome: "Material.210 (Motor Traseiro)", detalhe: selectedMotorColor, preco: pricingRules.pecaPequena },
+      { nome: "Parachoque", detalhe: selectedParachoqueColor, preco: pricingRules.pecaPequena },
+      { nome: "Motor Traseiro", detalhe: selectedMotorColor, preco: pricingRules.pecaPequena },
       { nome: "Rodas", detalhe: selectedWheelColor, preco: pricingRules.rodas },
       { nome: "Interior", detalhe: selectedInteriorColor, preco: pricingRules.interior },
       { nome: "Luz Traseira", detalhe: selectedTaillightColor, preco: pricingRules.pecaPequena },
