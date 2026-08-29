@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 // Catálogo principal
 const pecasCatalogo = [
   { id: 1, nome: 'SPORT 18', categoria: 'Rodas ', precoOriginal: 'R$ 2.600', precoPromo: 'R$  2.490', precoNum:  2.490, imagem: '/rodanew.png', descricao: 'Jogo de rodas esportivas aro 18' },
-  { id: 2, nome: 'RACING 19', categoria: 'Rodas ', precoOriginal: 'R$ ?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/rodanew2.png', descricao: 'Design agressivo para projetos esportivos.' },
+  { id: 2, nome: 'RACING 19', categoria: 'Rodas ', precoOriginal: 'R$ 3.620', precoPromo: 'R$ 3.490', precoNum: 3.490, imagem: '/rodanew2.png', descricao: 'Design agressivo para projetos esportivos.' },
   { id: 3, nome: 'FORGED 20', categoria: 'Rodas ', precoOriginal: 'R$ 3.600', precoPromo: 'R$ 3.490', precoNum: 3.490, imagem: '/rodanew3.png', descricao: 'Pneu aderente para alta velocidade.' },
   { id: 4, nome: 'GT WING', categoria: 'Aerofólio', precoOriginal: 'R$ 940', precoPromo: 'R$  899', precoNum:  899, imagem: '/aerofolio.jpg', descricao: 'Aerofólio esportivo para visual mais agressivo.' },
   { id: 5, nome: 'CARBON WING', categoria: 'Aerofólio', precoOriginal: 'R$1.550', precoPromo: 'R$  1.490', precoNum:  1.490, imagem: '/aerofolio2.jpg', descricao: 'Aerofólio em estilo fibra de carbono.' },
