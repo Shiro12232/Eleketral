@@ -6,11 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Palette, ShoppingCart, 
   Car, RefreshCw, ChevronLeft, 
-  ChevronRight, Settings, Droplets, Bug, Armchair, Search, 
-  Disc, Layers
+  ChevronRight, Sliders, Droplets, Armchair, 
+  Disc, Shield, Zap, Check
 } from "lucide-react";
 
-// COMPONENTE COLOR PICKER CUSTOMIZADO
+// Seletor de cores customizado com visual refinado
 function ColorPickerCustom({ 
   selectedColorHex, 
   onChangeColor,
@@ -24,7 +24,7 @@ function ColorPickerCustom({
   const [sat, setSat] = useState(100);
   const [light, setLight] = useState(50);
 
-  const handleHslToHex = (h: number, s: number, l: number) => {
+  const hslToHex = (h: number, s: number, l: number) => {
     s /= 100;
     l /= 100;
     const k = (n: number) => (n + h / 30) % 12;
@@ -36,16 +36,16 @@ function ColorPickerCustom({
       .toUpperCase();
   };
 
-  const updateWithValues = (h: number, s: number, l: number) => {
-    const hex = handleHslToHex(h, s, l);
+  const atualizaCor = (h: number, s: number, l: number) => {
+    const hex = hslToHex(h, s, l);
     onChangeColor(hex);
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-[#12121a] p-3 rounded-2xl border border-white/10">
-      
+    <div className="flex flex-col gap-3.5 bg-[#16181d] p-4 rounded-2xl border border-white/[0.08] shadow-xl">
+      {/* Área de Saturação / Luminosidade */}
       <div 
-        className="relative w-full h-32 rounded-xl cursor-crosshair overflow-hidden shadow-inner"
+        className="relative w-full h-36 rounded-xl cursor-crosshair overflow-hidden shadow-inner border border-white/5"
         style={{
           background: `linear-gradient(to bottom, transparent, #000), linear-gradient(to right, #fff, hsl(${hue}, 100%, 50%))`
         }}
@@ -57,26 +57,26 @@ function ColorPickerCustom({
             x = Math.max(0, Math.min(x, rect.width));
             y = Math.max(0, Math.min(y, rect.height));
             
-            const newSat = (x / rect.width) * 100;
-            const newLight = 50 - ((y / rect.height) * 50);
+            const novaSat = (x / rect.width) * 100;
+            const novaLuz = 50 - ((y / rect.height) * 50);
             
-            setSat(newSat);
-            setLight(newLight);
-            updateWithValues(hue, newSat, newLight);
+            setSat(novaSat);
+            setLight(novaLuz);
+            atualizaCor(hue, novaSat, novaLuz);
           };
           move(e.nativeEvent);
-          const onMouseUp = () => {
+          const soltou = () => {
             window.removeEventListener("mousemove", move);
-            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("mouseup", soltou);
           };
           window.addEventListener("mousemove", move);
-          window.addEventListener("mouseup", onMouseUp);
+          window.addEventListener("mouseup", soltou);
         }}
       />
 
-      
+      {/* Barra de Matiz (Hue) */}
       <div 
-        className="relative w-full h-5 rounded-lg cursor-pointer"
+        className="relative w-full h-4 rounded-lg cursor-pointer border border-white/10"
         style={{
           background: 'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)'
         }}
@@ -85,38 +85,40 @@ function ColorPickerCustom({
           const move = (event: MouseEvent) => {
             let x = event.clientX - rect.left;
             x = Math.max(0, Math.min(x, rect.width));
-            const newHue = (x / rect.width) * 360;
+            const novoHue = (x / rect.width) * 360;
             
-            setHue(newHue);
-            updateWithValues(newHue, sat, light);
+            setHue(novoHue);
+            atualizaCor(novoHue, sat, light);
           };
           move(e.nativeEvent);
-          const onMouseUp = () => {
+          const soltou = () => {
             window.removeEventListener("mousemove", move);
-            window.removeEventListener("mouseup", onMouseUp);
+            window.removeEventListener("mouseup", soltou);
           };
           window.addEventListener("mousemove", move);
-          window.addEventListener("mouseup", onMouseUp);
+          window.addEventListener("mouseup", soltou);
         }}
       />
 
-      {/* Preço */}
-      <div className="flex items-center justify-between text-xs pt-1 border-t border-white/5">
-        <div className="flex items-center gap-2">
+      {/* Rodapé do seletor */}
+      <div className="flex items-center justify-between pt-2 border-t border-white/5 text-xs">
+        <div className="flex items-center gap-2.5">
           <div className="w-5 h-5 rounded-md border border-white/20 shadow-sm" style={{ backgroundColor: selectedColorHex }} />
-          <span className="text-gray-400 font-mono">{selectedColorHex}</span>
+          <span className="text-gray-400 font-mono tracking-wider">{selectedColorHex}</span>
         </div>
-        <span className="text-emerald-400 font-bold">+ R$ {preco.toLocaleString('pt-BR')}</span>
+        <span className="text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20">
+          + R$ {preco.toLocaleString('pt-BR')}
+        </span>
       </div>
     </div>
   );
 }
 
-const pricingRules = {
-  carroceria: 4000,
-  rodas: 1400,
-  interior: 1200,
-  pecaPequena: 700
+const precos = {
+  carroceria: 4500,
+  rodas: 1800,
+  interior: 2200,
+  pecaPequena: 900
 };
 
 function ConteudoMonteSeuCarro() {
@@ -127,56 +129,44 @@ function ConteudoMonteSeuCarro() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [sketchfabApi, setSketchfabApi] = useState<any>(null);
   
-  // Categorias dinâmicas de materiais
+  // Categorias de materiais
   const [paintMaterials, setPaintMaterials] = useState<any[]>([]); 
   const [detalhesMaterials, setDetalhesMaterials] = useState<any[]>([]); 
   const [wheelMaterials, setWheelMaterials] = useState<any[]>([]); 
   const [interiorMaterials, setInteriorMaterials] = useState<any[]>([]); 
-
   const [glassNodeIds, setGlassNodeIds] = useState<number[]>([]);
+  
   const [isReady, setIsReady] = useState(false);
-  
-  const [allMaterialsDebug, setAllMaterialsDebug] = useState<any[]>([]);
-  const [showDebugPanel, setShowDebugPanel] = useState(true);
-  const [debugSearchQuery, setDebugSearchQuery] = useState("");
-  
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   
-  // Estados de cores em formato HEX padrão
-  const [selectedColor, setSelectedColor] = useState("#F97316");
-  const [selectedDetalhesColor, setSelectedDetalhesColor] = useState("#111111");
-  const [selectedWheelColor, setSelectedWheelColor] = useState("#2E3033");
-  const [selectedInteriorColor, setSelectedInteriorColor] = useState("#B45309");
-
+  // Cores iniciais elegantes
+  const [selectedColor, setSelectedColor] = useState("#0F172A"); // Azul Meia-Noite
+  const [selectedDetalhesColor, setSelectedDetalhesColor] = useState("#18181B"); // Preto Fosco
+  const [selectedWheelColor, setSelectedWheelColor] = useState("#27272A"); // Grafite Rodas
+  const [selectedInteriorColor, setSelectedInteriorColor] = useState("#9A3412"); // Couro Terracota
   const [glassType, setGlassType] = useState("transparente");
-  const [currentId, setCurrentId] = useState("");
   
+  const [currentId, setCurrentId] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(true);
 
-  const precoBaseCarro = 0;
+  // Aba ativa na sidebar (substitui a rolagem longa)
+  const [abaAtiva, setAbaAtiva] = useState<'pintura' | 'rodas' | 'interior' | 'detalhes'>('pintura');
+
   const precoTotal = 
-    precoBaseCarro + 
-    pricingRules.carroceria +
-    pricingRules.pecaPequena +
-    pricingRules.rodas +
-    pricingRules.interior +
-    (glassType === "preto" ? 800 : 0);
+    precos.carroceria +
+    precos.pecaPequena +
+    precos.rodas +
+    precos.interior +
+    (glassType === "preto" ? 1200 : 0);
 
-  const filteredDebugMaterials = allMaterialsDebug.filter((mat) => {
-    const query = debugSearchQuery.toLowerCase();
-    const nameMatch = mat.name && mat.name.toLowerCase().includes(query);
-    const idMatch = mat.id && mat.id.toString().includes(query);
-    return nameMatch || idMatch;
-  });
-
-  const hexToRgb = (hex: string): [number, number, number] => {
-    let cleanHex = hex.replace("#", "");
-    if (cleanHex.length === 3) {
-      cleanHex = cleanHex.split("").map(c => c + c).join("");
+  const hexParaRgb = (hex: string): [number, number, number] => {
+    let limpo = hex.replace("#", "");
+    if (limpo.length === 3) {
+      limpo = limpo.split("").map(c => c + c).join("");
     }
-    const num = parseInt(cleanHex, 16);
+    const num = parseInt(limpo, 16);
     return [
       ((num >> 16) & 255) / 255,
       ((num >> 8) & 255) / 255,
@@ -184,37 +174,14 @@ function ConteudoMonteSeuCarro() {
     ];
   };
 
-  const testPaintMaterialDebug = (mat: any) => {
-    if (!sketchfabApi || !mat) return;
-    const verdeColor: [number, number, number] = [0.02, 0.85, 0.05];
-    
-    if (mat.channels && mat.channels.AlbedoPBR) {
-      mat.channels.AlbedoPBR.color = verdeColor;
-      mat.channels.AlbedoPBR.enable = true;
-      sketchfabApi.setMaterial(mat, () => {
-        if (typeof sketchfabApi.updateMaterial === "function") {
-          sketchfabApi.updateMaterial(mat);
-        }
-      });
-    }
-  };
-
-  const resetDebugColors = () => {
-    if (!sketchfabApi) return;
-    applyMaterialColor(paintMaterials, selectedColor);
-    applyMaterialColor(detalhesMaterials, selectedDetalhesColor);
-    applyMaterialColor(wheelMaterials, selectedWheelColor);
-    applyMaterialColor(interiorMaterials, selectedInteriorColor);
-  };
-
   const handleAddToCart = () => {
     const itensConfigurados = [
       { nome: "Veículo Base", detalhe: `${marca} ${modelo}`, preco: 0 },
-      { nome: "Pintura Externa", detalhe: selectedColor, preco: pricingRules.carroceria },
-      { nome: "Acabamentos e Plásticos", detalhe: selectedDetalhesColor, preco: pricingRules.pecaPequena },
-      { nome: "Rodas e Pneus", detalhe: selectedWheelColor, preco: pricingRules.rodas },
-      { nome: "Interior", detalhe: selectedInteriorColor, preco: pricingRules.interior },
-      { nome: "Estilo dos Vidros", detalhe: glassType, preco: glassType === "preto" ? 800 : 0 },
+      { nome: "Pintura Externa", detalhe: selectedColor, preco: precos.carroceria },
+      { nome: "Acabamentos e Detalhes", detalhe: selectedDetalhesColor, preco: precos.pecaPequena },
+      { nome: "Rodas Esportivas", detalhe: selectedWheelColor, preco: precos.rodas },
+      { nome: "Acabamento Interno", detalhe: selectedInteriorColor, preco: precos.interior },
+      { nome: "Estilo dos Vidros", detalhe: glassType, preco: glassType === "preto" ? 1200 : 0 },
     ];
 
     localStorage.setItem("carrinho_customizacao", JSON.stringify(itensConfigurados));
@@ -223,7 +190,7 @@ function ConteudoMonteSeuCarro() {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowAlert(false), 3000);
+    const timer = setTimeout(() => setShowAlert(false), 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -257,8 +224,6 @@ function ConteudoMonteSeuCarro() {
 
   useEffect(() => {
     if (isReady && currentId && iframeRef.current && (window as any).Sketchfab) {
-      setAllMaterialsDebug([]);
-
       const client = new (window as any).Sketchfab(iframeRef.current);
       
       client.init(currentId, {
@@ -269,14 +234,12 @@ function ConteudoMonteSeuCarro() {
             
             api.setEnvironment({
               shadowEnabled: true,
-              lightIntensity: 1.2,
-              exposure: 1.0
+              lightIntensity: 1.3,
+              exposure: 1.1
             }, () => {});
 
             api.getMaterialList((err: any, materials: any[]) => {
               if (!err && materials) {
-                setAllMaterialsDebug(materials);
-                
                 const pinturas: any[] = [];
                 const detalhes: any[] = [];
                 const rodas: any[] = [];
@@ -284,39 +247,11 @@ function ConteudoMonteSeuCarro() {
 
                 materials.forEach(m => {
                   const n = m.name.toLowerCase();
-
-                  if (
-                    n.includes("glass") || n.includes("window") || n.includes("vidro") || 
-                    n.includes("windshield") || n.includes("logo") || n.includes("emblem") || 
-                    n.includes("light") || n.includes("lamp") || n.includes("farol") || 
-                    n.includes("lantern") || n.includes("indicator")
-                  ) {
-                    return;
-                  } 
-                  else if (
-                    n.includes("wheel") || n.includes("rim") || n.includes("tire") || 
-                    n.includes("pneu") || n.includes("tread") || n.includes("sidewall") || 
-                    n.includes("brake") || n.includes("disco") || n.includes("roda")
-                  ) {
-                    rodas.push(m);
-                  } 
-                  else if (
-                    n.includes("interior") || n.includes("seat") || n.includes("banco") || 
-                    n.includes("steering") || n.includes("volante") || n.includes("dashboard") || 
-                    n.includes("painel") || n.includes("cabin")
-                  ) {
-                    interior.push(m);
-                  } 
-                  else if (
-                    n.includes("rubber") || n.includes("trim") || n.includes("plastic") || 
-                    n.includes("bottom") || n.includes("chassis") || n.includes("grill") || 
-                    n.includes("grade") || n.includes("grelha")
-                  ) {
-                    detalhes.push(m);
-                  } 
-                  else {
-                    pinturas.push(m);
-                  }
+                  if (n.includes("glass") || n.includes("window") || n.includes("vidro") || n.includes("windshield") || n.includes("logo") || n.includes("emblem") || n.includes("light") || n.includes("lamp") || n.includes("farol") || n.includes("lantern")) return; 
+                  else if (n.includes("wheel") || n.includes("rim") || n.includes("tire") || n.includes("pneu") || n.includes("brake") || n.includes("disco") || n.includes("roda")) rodas.push(m);
+                  else if (n.includes("interior") || n.includes("seat") || n.includes("banco") || n.includes("steering") || n.includes("volante") || n.includes("dashboard") || n.includes("painel")) interior.push(m);
+                  else if (n.includes("rubber") || n.includes("trim") || n.includes("plastic") || n.includes("grill") || n.includes("grade")) detalhes.push(m);
+                  else pinturas.push(m);
                 });
 
                 setPaintMaterials(pinturas);
@@ -331,8 +266,8 @@ function ConteudoMonteSeuCarro() {
                 const glassIds: number[] = [];
                 Object.values(nodes).forEach((node: any) => {
                   if (node.type === 'MatrixTransform' && node.name) {
-                    const nameLower = node.name.toLowerCase();
-                    if (nameLower.includes("glass") || nameLower.includes("window") || nameLower.includes("vidro") || nameLower.includes("windshield")) {
+                    const nomeBaixo = node.name.toLowerCase();
+                    if (nomeBaixo.includes("glass") || nomeBaixo.includes("window") || nomeBaixo.includes("vidro")) {
                       glassIds.push(node.instanceID);
                     }
                   }
@@ -340,20 +275,18 @@ function ConteudoMonteSeuCarro() {
                 setGlassNodeIds(glassIds);
               }
             });
-
           });
         },
-        error: () => console.error('Erro no Sketchfab'),
+        error: () => console.error('Erro ao iniciar visualizador Sketchfab'),
         autostart: 1, transparent: 1, ui_controls: 0, ui_infos: 0, ui_watermark: 0, ui_theme: "dark"
       });
     }
   }, [isReady, currentId]);
 
-  const applyMaterialColor = (matList: any[], hexColor: string) => {
+  const aplicaCorNoMaterial = (listaMateriais: any[], corHex: string) => {
     if (!sketchfabApi) return;
-    const rgb = hexToRgb(hexColor);
-
-    matList.forEach((mat: any) => {
+    const rgb = hexParaRgb(corHex);
+    listaMateriais.forEach((mat: any) => {
       if (mat.channels && mat.channels.AlbedoPBR) {
         mat.channels.AlbedoPBR.color = rgb;
         mat.channels.AlbedoPBR.enable = true;
@@ -364,10 +297,10 @@ function ConteudoMonteSeuCarro() {
     });
   };
 
-  useEffect(() => { applyMaterialColor(paintMaterials, selectedColor); }, [selectedColor, sketchfabApi, paintMaterials]);
-  useEffect(() => { applyMaterialColor(detalhesMaterials, selectedDetalhesColor); }, [selectedDetalhesColor, sketchfabApi, detalhesMaterials]);
-  useEffect(() => { applyMaterialColor(wheelMaterials, selectedWheelColor); }, [selectedWheelColor, sketchfabApi, wheelMaterials]);
-  useEffect(() => { applyMaterialColor(interiorMaterials, selectedInteriorColor); }, [selectedInteriorColor, sketchfabApi, interiorMaterials]);
+  useEffect(() => { aplicaCorNoMaterial(paintMaterials, selectedColor); }, [selectedColor, sketchfabApi, paintMaterials]);
+  useEffect(() => { aplicaCorNoMaterial(detalhesMaterials, selectedDetalhesColor); }, [selectedDetalhesColor, sketchfabApi, detalhesMaterials]);
+  useEffect(() => { aplicaCorNoMaterial(wheelMaterials, selectedWheelColor); }, [selectedWheelColor, sketchfabApi, wheelMaterials]);
+  useEffect(() => { aplicaCorNoMaterial(interiorMaterials, selectedInteriorColor); }, [selectedInteriorColor, sketchfabApi, interiorMaterials]);
 
   useEffect(() => {
     if (sketchfabApi && glassNodeIds.length > 0) {
@@ -380,19 +313,20 @@ function ConteudoMonteSeuCarro() {
 
   if (!isReady) {
     return (
-      <div className="min-h-screen bg-[#0b0b0f] flex items-center justify-center text-purple-400 font-semibold">
-        Carregando Modelo 3D...
+      <div className="min-h-screen bg-[#090a0f] flex flex-col items-center justify-center text-emerald-400 font-medium gap-3">
+        <div className="w-8 h-8 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <span className="text-sm tracking-wide text-gray-400">Preparando estúdio 3D...</span>
       </div>
     );
   }
 
   return (
-    <section className="relative w-full h-screen bg-[#0b0b0f] text-white flex flex-col justify-between overflow-hidden">
+    <section className="relative w-full h-screen bg-[#090a0f] text-white flex flex-col justify-between overflow-hidden">
       
-      {/* 3D Viewer */}
+      {/* Container do Iframe 3D */}
       <div className="absolute inset-0 w-full h-full z-0 flex items-center justify-center bg-transparent overflow-hidden">
-        <div className="absolute inset-0 bg-cover bg-center z-0" style={{ backgroundImage: "url('/fundogaragem.png')" }} />
-        <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-cover bg-center z-0 opacity-80" style={{ backgroundImage: "url('/fundogaragem.png')" }} />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/30 to-transparent z-10 pointer-events-none" />
         
         <div className="w-full h-full relative z-20 flex items-center justify-center overflow-hidden">
           <iframe 
@@ -404,10 +338,7 @@ function ConteudoMonteSeuCarro() {
         </div>
       </div>
 
-     
-      
-
-      {/* Botão lateral */}
+      {/* Botão de Gatilho da Sidebar */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
         <div className="relative">
           <button 
@@ -415,118 +346,165 @@ function ConteudoMonteSeuCarro() {
               setIsSidebarOpen(!isSidebarOpen);
               setShowAlert(false);
             }}
-            className={`bg-[#12121a]/95 hover:bg-purple-600 backdrop-blur-md border border-white/10 text-white p-3 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
-              isSidebarOpen ? 'translate-x-[420px] md:translate-x-[450px]' : 'translate-x-0'
+            className={`bg-[#12131a]/90 hover:bg-emerald-600 backdrop-blur-md border border-white/10 text-white p-3.5 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
+              isSidebarOpen ? 'translate-x-[420px]' : 'translate-x-0'
             }`}
           >
-            {isSidebarOpen ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
+            {isSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
           </button>
 
           {!isSidebarOpen && showAlert && (
-            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap animate-bounce border border-purple-400/40 pointer-events-none z-50 flex items-center gap-1.5">
-              <span>Clique para abrir o configurador!</span>
+            <div className="absolute left-16 top-1/2 -translate-y-1/2 bg-emerald-600 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-2xl whitespace-nowrap animate-pulse border border-emerald-400/40 pointer-events-none z-50 flex items-center gap-2">
+              <Zap size={14} /> <span>Abrir estúdio de customização</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Sidebar de customização */}
-      <div className={`absolute top-0 left-0 h-full w-full sm:w-[420px] md:w-[450px] bg-[#0b0b0f]/90 backdrop-blur-xl border-r border-white/10 p-6 flex flex-col justify-between z-30 transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
+      {/* Painel Lateral Redesenhado (Estilo Dashboard Clean) */}
+      <div className={`absolute top-0 left-0 h-full w-full sm:w-[420px] bg-[#101116]/95 backdrop-blur-2xl border-r border-white/10 p-6 flex flex-col justify-between z-30 transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         
-        <div className="flex flex-col gap-6 pt-16 md:pt-4">
+        <div className="flex flex-col gap-5 pt-12 sm:pt-2">
+          
+          {/* Topo do Menu */}
           <div className="flex items-center justify-between border-b border-white/10 pb-4">
-            <h2 className="text-sm font-bold tracking-widest text-purple-400 uppercase flex items-center gap-2">
-              <Settings size={18} /> Configurador Automotivo
-            </h2>
+            <div className="flex items-center gap-2">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
+              <h2 className="text-xs font-extrabold tracking-widest text-gray-200 uppercase">
+                CustomStudio Pro
+              </h2>
+            </div>
             <Link href="/" className="text-xs text-gray-400 hover:text-white transition-colors">
-              Início
+              Sair
             </Link>
           </div>
 
-          <div className="bg-[#12121a] p-4 rounded-2xl border border-white/10 flex flex-col gap-3 shadow-md">
-            <div className="flex items-center justify-between border-b border-white/5 pb-2">
-              <span className="text-xs font-bold text-gray-300 uppercase flex items-center gap-2">
-                <Car size={16} /> Veículo Selecionado
-              </span>
-              <Link href="/selecionar-carro" className="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1">
-                <RefreshCw size={12} /> Trocar Carro
-              </Link>
+          {/* Card do Veículo */}
+          <div className="bg-[#16181d] p-3.5 rounded-2xl border border-white/[0.08] flex items-center justify-between">
+            <div>
+              <span className="text-[10px] text-gray-400 uppercase tracking-wider block font-medium">Veículo Ativo</span>
+              <span className="text-xs font-bold text-white tracking-wide">{marca} {modelo}</span>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-[#1b1b26] p-2.5 rounded-xl border border-white/5">
-                <span className="text-[10px] text-gray-400 uppercase block">Marca</span>
-                <span className="text-xs font-bold text-white">{marca || "Carregando..."}</span>
-              </div>
-              <div className="bg-[#1b1b26] p-2.5 rounded-xl border border-white/5">
-                <span className="text-[10px] text-gray-400 uppercase block">Modelo</span>
-                <span className="text-xs font-bold text-purple-400 truncate block">{modelo || "Carregando..."}</span>
-              </div>
-            </div>
+            <Link href="/selecionar-carro" className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 bg-emerald-500/10 px-2.5 py-1.5 rounded-xl border border-emerald-500/20 transition-all">
+              <RefreshCw size={12} /> Trocar
+            </Link>
           </div>
 
-          {/* 1. Pintura Externa */}
-          <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-              <Palette size={14} /> 1. Pintura Externa 
-            </span>
-            <ColorPickerCustom selectedColorHex={selectedColor} onChangeColor={setSelectedColor} preco={pricingRules.carroceria} />
-          </div>
-
-          {/* 2. Acabamentos e Plásticos */}
-          <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-              <Layers size={14} /> 2. Plásticos e Frisos
-            </span>
-            <ColorPickerCustom selectedColorHex={selectedDetalhesColor} onChangeColor={setSelectedDetalhesColor} preco={pricingRules.pecaPequena} />
-          </div>
-
-          {/* 3. Rodas e Pneus */}
-          <div className="flex flex-col gap-2">
-            <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-              <Disc size={14} /> 3. Rodas e Pneus
-            </span>
-            <ColorPickerCustom selectedColorHex={selectedWheelColor} onChangeColor={setSelectedWheelColor} preco={pricingRules.rodas} />
-          </div>
-
-         
-
-          {/* 5. Estilo dos Vidros */}
-          <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
-            <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
-              <Droplets size={14} /> 5. Estilo dos Vidros
-            </span>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: 'transparente', label: 'Transparente' },
-                { id: 'preto', label: 'Fumê / Preto' }
-              ].map((v) => (
-                <button key={v.id} onClick={() => setGlassType(v.id)}
-                  className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${glassType === v.id ? 'bg-purple-600 border-purple-500 text-white shadow-lg shadow-purple-600/30' : 'bg-[#1b1b26] border-white/10 text-gray-300 hover:bg-[#222230]'}`}>
-                  {v.label}
+          {/* Abas de Navegação Super Limpas */}
+          <div className="grid grid-cols-4 gap-1.5 bg-[#16181d] p-1.5 rounded-2xl border border-white/[0.08]">
+            {[
+              { id: 'pintura', label: 'Pintura', icon: Palette },
+              { id: 'detalhes', label: 'Acab.', icon: Shield },
+              { id: 'rodas', label: 'Rodas', icon: Disc },
+              { id: 'interior', label: 'Interior', icon: Armchair },
+            ].map((aba) => {
+              const Icon = aba.icon;
+              const ativa = abaAtiva === aba.id;
+              return (
+                <button
+                  key={aba.id}
+                  onClick={() => setAbaAtiva(aba.id as any)}
+                  className={`flex flex-col items-center justify-center gap-1 py-2.5 rounded-xl text-[11px] font-semibold transition-all cursor-pointer ${
+                    ativa 
+                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <Icon size={16} />
+                  <span>{aba.label}</span>
                 </button>
-              ))}
-            </div>
-            <div className="text-[11px] text-purple-300 flex justify-between bg-[#1b1b26] px-3 py-1.5 rounded-lg border border-white/5">
-              <span>Acréscimo desta seção:</span>
-              <span className="font-bold">{glassType === "preto" ? "+ R$ 800" : "Incluso"}</span>
-            </div>
+              );
+            })}
           </div>
+
+          {/* Conteúdo Dinâmico Conforme a Aba Selecionada */}
+          <div className="pt-1">
+            {abaAtiva === 'pintura' && (
+              <div className="flex flex-col gap-3 animate-fadeIn">
+                <span className="text-xs text-gray-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <Palette size={14} className="text-emerald-400" /> Cor da Carroceria
+                </span>
+                <ColorPickerCustom selectedColorHex={selectedColor} onChangeColor={setSelectedColor} preco={precos.carroceria} />
+              </div>
+            )}
+
+            {abaAtiva === 'detalhes' && (
+              <div className="flex flex-col gap-3 animate-fadeIn">
+                <span className="text-xs text-gray-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <Shield size={14} className="text-emerald-400" /> Frisos e Plásticos
+                </span>
+                <ColorPickerCustom selectedColorHex={selectedDetalhesColor} onChangeColor={setSelectedDetalhesColor} preco={precos.pecaPequena} />
+              </div>
+            )}
+
+            {abaAtiva === 'rodas' && (
+              <div className="flex flex-col gap-4 animate-fadeIn">
+                <div className="flex flex-col gap-3">
+                  <span className="text-xs text-gray-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <Disc size={14} className="text-emerald-400" /> Acabamento das Rodas
+                  </span>
+                  <ColorPickerCustom selectedColorHex={selectedWheelColor} onChangeColor={setSelectedWheelColor} preco={precos.rodas} />
+                </div>
+
+                {/* Subseção de Vidros dentro de Rodas/Vidros */}
+                <div className="flex flex-col gap-3 bg-[#16181d] p-4 rounded-2xl border border-white/[0.08] mt-2">
+                  <span className="text-xs text-gray-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    <Droplets size={14} className="text-emerald-400" /> Película dos Vidros
+                  </span>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    {[
+                      { id: 'transparente', label: 'Original' },
+                      { id: 'preto', label: 'Fumê Dark' }
+                    ].map((v) => (
+                      <button 
+                        key={v.id} 
+                        onClick={() => setGlassType(v.id)}
+                        className={`py-2 px-3 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                          glassType === v.id 
+                            ? 'bg-emerald-600 border-emerald-500 text-white shadow-md' 
+                            : 'bg-[#1b1d24] border-white/5 text-gray-400 hover:bg-white/5'
+                        }`}
+                      >
+                        {glassType === v.id && <Check size={12} />}
+                        {v.label}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="text-[11px] text-gray-400 flex justify-between bg-[#111217] px-3 py-2 rounded-xl border border-white/5">
+                    <span>Taxa da película:</span>
+                    <span className="font-semibold text-emerald-400">{glassType === "preto" ? "+ R$ 1.200" : "Incluso"}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {abaAtiva === 'interior' && (
+              <div className="flex flex-col gap-3 animate-fadeIn">
+                <span className="text-xs text-gray-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <Armchair size={14} className="text-emerald-400" /> Revestimento dos Bancos
+                </span>
+                <ColorPickerCustom selectedColorHex={selectedInteriorColor} onChangeColor={setSelectedInteriorColor} preco={precos.interior} />
+              </div>
+            )}
+          </div>
+
         </div>
 
-        <div className="bg-[#12121a] p-4 rounded-2xl border border-white/10 flex flex-col gap-3 shadow-xl mt-6 sticky bottom-0">
+        {/* Rodapé Fixo com Botão de Finalizar */}
+        <div className="bg-[#16181d] p-4 rounded-2xl border border-white/[0.08] flex flex-col gap-3 shadow-xl mt-6 sticky bottom-0">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-400 uppercase font-bold">Valor Total:</span>
-            <span className="text-lg font-extrabold text-emerald-400">
+            <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Valor Total do Projeto:</span>
+            <span className="text-base font-extrabold text-emerald-400 font-mono">
               R$ {precoTotal.toLocaleString('pt-BR')}
             </span>
           </div>
           <button 
             onClick={handleAddToCart}
-            className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-purple-600/40 text-sm cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-600/30 text-xs uppercase tracking-wider cursor-pointer"
           >
-            <ShoppingCart size={18} /> Adicionar ao Carrinho
+            <ShoppingCart size={16} /> Salvar e Ir para o Carrinho
           </button>
         </div>
 
@@ -538,7 +516,7 @@ function ConteudoMonteSeuCarro() {
 
 export default function MonteSeuCarroPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0b0b0f] text-white flex items-center justify-center">Carregando...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#090a0f] text-white flex items-center justify-center">Carregando estúdio...</div>}>
       <ConteudoMonteSeuCarro />
     </Suspense>
   );
