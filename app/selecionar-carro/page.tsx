@@ -100,7 +100,7 @@ export default function SelecionarCarroPage() {
     },
     {
       id: 5,
-      imagens: ["/BgGaragem.jpg", "/infiniti2.png", "/infiniti3.png"],
+      imagens: ["/infiniti1.jpg", "/infiniti2.jpg", "/infiniti3.jpg"],
       marca: "Infiniti",
       modelo: "QX80",
       slug: "infiniti",
