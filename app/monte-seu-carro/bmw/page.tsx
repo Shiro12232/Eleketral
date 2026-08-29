@@ -618,6 +618,52 @@ function ConteudoMonteSeuCarro() {
       </div>
 
       {/* Sidebar de customização */}
+      <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
+        <div className="relative">
+          <button 
+            onClick={() => {
+              setIsSidebarOpen(!isSidebarOpen);
+              setShowAlert(false);
+            }}
+            className={`bg-[#12121a]/95 hover:bg-purple-600 backdrop-blur-md border border-white/10 text-white p-3 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
+              isSidebarOpen ? 'translate-x-[420px] md:translate-x-[450px]' : 'translate-x-0'
+            }`}
+          >
+            {isSidebarOpen ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
+          </button>
+
+          {!isSidebarOpen && showAlert && (
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap animate-bounce border border-purple-400/40 pointer-events-none z-50 flex items-center gap-1.5">
+              <span>Clique para abrir o configurador!</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+ {/* Botão lateral para abrir configurador */}
+      <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
+        <div className="relative">
+          <button 
+            onClick={() => {
+              setIsSidebarOpen(!isSidebarOpen);
+              setShowAlert(false);
+            }}
+            className={`bg-[#12121a]/95 hover:bg-purple-600 backdrop-blur-md border border-white/10 text-white p-3 rounded-r-2xl transition-all duration-300 shadow-2xl cursor-pointer flex items-center justify-center ${
+              isSidebarOpen ? 'translate-x-[420px] md:translate-x-[450px]' : 'translate-x-0'
+            }`}
+          >
+            {isSidebarOpen ? <ChevronLeft size={22} /> : <ChevronRight size={22} />}
+          </button>
+
+          {!isSidebarOpen && showAlert && (
+            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-purple-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-xl whitespace-nowrap animate-bounce border border-purple-400/40 pointer-events-none z-50 flex items-center gap-1.5">
+              <span>Clique para abrir o configurador!</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Sidebar de customização */}
       <div className={`absolute top-0 left-0 h-full w-full sm:w-[420px] md:w-[450px] bg-[#0b0b0f]/90 backdrop-blur-xl border-r border-white/10 p-6 flex flex-col justify-between z-30 transition-transform duration-300 ease-in-out shadow-2xl overflow-y-auto ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
@@ -652,7 +698,6 @@ function ConteudoMonteSeuCarro() {
               </div>
             </div>
           </div>
-
           {/* 1. Pintura Externa */}
           <div className="flex flex-col gap-2">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">

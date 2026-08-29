@@ -114,7 +114,7 @@ function ColorPickerCustom({
 
 const pricingRules = {
   carroceria: 4000,
-  rodas: 1800,
+  rodas: 1400,
   interior: 1200,
   pecaPequena: 700
 };

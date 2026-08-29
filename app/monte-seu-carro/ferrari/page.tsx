@@ -573,7 +573,7 @@ function ConteudoMonteSeuCarro() {
           </div>
 
           {/* 1. Pintura Externa */}
-          <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
+          <div className="flex flex-col gap-3  p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Palette size={14} /> 1. Pintura Externa
             </span>
