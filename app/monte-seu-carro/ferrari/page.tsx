@@ -508,7 +508,7 @@ function ConteudoMonteSeuCarro() {
             className="w-full h-full border-0 pointer-events-auto bg-transparent transition-all duration-300" 
             allow="autoplay; fullscreen; vr" 
           />
-        </div>
+         </div>
       </div>
 
      
@@ -573,7 +573,7 @@ function ConteudoMonteSeuCarro() {
           </div>
 
           {/* 1. Pintura Externa */}
-          <div className="flex flex-col gap-3  p-4 rounded-2xl border border-white/10">
+          <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-white/10">
             <span className="text-xs text-purple-400 uppercase font-bold flex items-center gap-1.5">
               <Palette size={14} /> 1. Pintura Externa
             </span>
@@ -604,9 +604,7 @@ function ConteudoMonteSeuCarro() {
             {renderColorGrid(selectedInteriorColor, setSelectedInteriorColor, 'interior')}
           </div>
 
-          {/* ========================================================= */}
-          {/* BLOCOS EXCLUSIVOS PARA BMW (só aparecem se for BMW) */}
-          {/* ========================================================= */}
+      
           {isBmw && (
             <>
               <div className="flex flex-col gap-3 bg-[#12121a] p-4 rounded-2xl border border-purple-500/30">

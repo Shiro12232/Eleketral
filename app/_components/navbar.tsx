@@ -43,7 +43,7 @@ export default function Navbar() {
           ELEKETRAL
         </span>
         <span className="text-[10px] tracking-widest text-gray-400 uppercase -mt-1">
-          Auto Peças
+          Customizações
         </span>
       </div>
 

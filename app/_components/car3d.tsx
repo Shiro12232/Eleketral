@@ -5,6 +5,7 @@ import Link from 'next/link';
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, Environment } from '@react-three/drei';
+import Lightning from '@/components/Lightning'; // Ajuste o caminho se necessário
 
 interface Car3DProps {
   bodyColor?: string;
@@ -12,7 +13,7 @@ interface Car3DProps {
   grilleColor?: string;
 }
 
-// Carrega o modelo 3Ds. lataria, rodas, placa
+// Carrega o modelo 3D: lataria, rodas, placa
 function CarModel({ bodyColor = "#90309B", rimColor = "#ef4444", grilleColor = "#000000" }: Car3DProps) {
   const { scene } = useGLTF('/2019_toyota_camry_hybrid_xse.glb');
   
@@ -87,10 +88,23 @@ export default function Car3D({
 }: Car3DProps) {
   return (
     <section className="relative w-full flex items-center overflow-hidden pb-12 pt-12">
-      {/*  luz de fundo */}
-      <div className="absolute top-1/2 right-20 -translate-y-1/2 w-[450px] h-[450px] bg-purple-600/20 rounded-full blur-[130px] pointer-events-none" />
       
+      {/* ⚡ EFEITO DE RAIO ANCORADO NA LATERAL DIREITA DO HERO */}
+      <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full z-0 pointer-events-none opacity-90 overflow-hidden flex justify-end">
+        <div className="w-full h-full relative">
+          <Lightning
+            hue={265}
+            xOffset={-1.5}
+            speed={1.4}
+            intensity={1.2}
+            size={1.9}
+          />
+        </div>
+      </div>
 
+      {/* luz de fundo roxa complementar */}
+      <div className="absolute top-1/2 right-20 -translate-y-1/2 w-[450px] h-[450px] bg-purple-600/20 rounded-full blur-[130px] pointer-events-none z-0" />
+      
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 px-4 md:px-8">
         
         {/* textos do lado esquerdo */}
@@ -101,50 +115,53 @@ export default function Car3D({
             <span className="bg-gradient-to-r from-purple-400 via-fuchsia-500/25 to-purple-600 bg-clip-text text-transparent">estilo e potência.</span>
           </h1>
           <p className="text-gray-400 text-base max-w-lg">Customize com variados tipos de personalização e confira o catálogo para dar uma turbinada no seu carro.</p>
-
-          <div className="flex flex-col items-center lg:items-start gap-4 pt-2">
-           
-          </div>
         </div>
 
-        {/* 3d do lado direito, parte do palco */}
-        <div className="relative w-full h-[480px] md:h-[480px] flex items-center justify-center">
-          <Canvas shadows camera={{ position: [7, 1.8, 7], fov: 42 }} className="w-full h-full cursor-grab active:cursor-grabbing">
-            <ambientLight intensity={0.5} />
-            
-            <directionalLight 
-              position={[10, 15, 10]} 
-              intensity={2} 
-              castShadow 
-              shadow-mapSize={[2048, 2048]}
-              shadow-camera-left={-50}
-              shadow-camera-right={50}
-              shadow-camera-top={50}
-              shadow-camera-bottom={-50}
-            />
-            
-            <Suspense fallback={<Carregando />}>
-              <Environment preset="city" />
+        {/* 3d do lado direito */}
+        <div className="relative w-full h-[480px] md:h-[480px] flex items-center justify-center bg-transparent">
+          <div className="relative z-10 w-full h-full bg-transparent">
+            <Canvas 
+              shadows 
+              gl={{ alpha: true }} 
+              camera={{ position: [7, 1.8, 7], fov: 42 }} 
+              className="w-full h-full cursor-grab active:cursor-grabbing bg-transparent"
+            >
+              <ambientLight intensity={0.5} />
               
-              <CarModel bodyColor={bodyColor} rimColor={rimColor} grilleColor={grilleColor} />
+              <directionalLight 
+                position={[10, 15, 10]} 
+                intensity={2} 
+                castShadow 
+                shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-50}
+                shadow-camera-right={50}
+                shadow-camera-top={50}
+                shadow-camera-bottom={-50}
+              />
+              
+              <Suspense fallback={<Carregando />}>
+                <Environment preset="city" />
+                
+                <CarModel bodyColor={bodyColor} rimColor={rimColor} grilleColor={grilleColor} />
 
-              {/* sombra */}
-              <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.4, 0]} receiveShadow>
-                <planeGeometry args={[100, 100]} />
-                <shadowMaterial transparent opacity={0.4} />
-              </mesh>
-            </Suspense>
-            
-            {/* controle */}
-            <OrbitControls 
-              enableZoom={true} 
-              zoomSpeed={0.8}
-              enablePan={false}
-              makeDefault
-              minDistance={4}
-              maxDistance={12}
-            />
-          </Canvas>
+                {/* sombra */}
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.4, 0]} receiveShadow>
+                  <planeGeometry args={[100, 100]} />
+                  <shadowMaterial transparent opacity={0.4} />
+                </mesh>
+              </Suspense>
+              
+              {/* controle */}
+              <OrbitControls 
+                enableZoom={true} 
+                zoomSpeed={0.8}
+                enablePan={false}
+                makeDefault
+                minDistance={4}
+                maxDistance={12}
+              />
+            </Canvas>
+          </div>
         </div>
 
       </div>

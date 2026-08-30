@@ -6,11 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Palette, ShoppingCart, 
   Car, RefreshCw, ChevronLeft, 
-  ChevronRight, Settings, Droplets, Bug, Armchair, Search, 
+  ChevronRight, Settings, Droplets, Armchair, 
   Disc, Flame, Lightbulb, Shield, Layers
 } from "lucide-react";
 
-// COMPONENTE COLOR PICKER CUSTOMIZADO
+// COMPONENTE COLOR PICKER CUSTOMIZADO COM PERFORMANCE OTIMIZADA
 function ColorPickerCustom({ 
   selectedColorHex, 
   onChangeColor,
@@ -23,6 +23,7 @@ function ColorPickerCustom({
   const [hue, setHue] = useState(0);
   const [sat, setSat] = useState(100);
   const [light, setLight] = useState(50);
+  const animationFrameRef = useRef<number | null>(null);
 
   const handleHslToHex = (h: number, s: number, l: number) => {
     s /= 100;
@@ -37,8 +38,14 @@ function ColorPickerCustom({
   };
 
   const updateWithValues = (h: number, s: number, l: number) => {
-    const hex = handleHslToHex(h, s, l);
-    onChangeColor(hex);
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+    // Otimização para evitar travamentos no arrasto do mouse
+    animationFrameRef.current = requestAnimationFrame(() => {
+      const hex = handleHslToHex(h, s, l);
+      onChangeColor(hex);
+    });
   };
 
   return (
@@ -138,14 +145,9 @@ function ConteudoMonteSeuCarro() {
   const [glassNodeIds, setGlassNodeIds] = useState<number[]>([]);
   const [isReady, setIsReady] = useState(false);
   
-  const [allMaterialsDebug, setAllMaterialsDebug] = useState<any[]>([]);
-  const [showDebugPanel, setShowDebugPanel] = useState(true);
-  const [debugSearchQuery, setDebugSearchQuery] = useState("");
-  
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   
-  // Cores em formato HEX padrão
   const [selectedColor, setSelectedColor] = useState("#FF6600");
   const [selectedParachoqueColor, setSelectedParachoqueColor] = useState("#111111");
   const [selectedMotorColor, setSelectedMotorColor] = useState("#333333");
@@ -160,9 +162,7 @@ function ConteudoMonteSeuCarro() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(true);
 
-  const precoBaseCarro = 0;
   const precoTotal = 
-    precoBaseCarro + 
     pricingRules.carroceria +
     pricingRules.pecaPequena +
     pricingRules.pecaPequena +
@@ -171,13 +171,6 @@ function ConteudoMonteSeuCarro() {
     pricingRules.pecaPequena +
     pricingRules.pecaPequena +
     (glassType === "preto" ? 800 : 0);
-
-  const filteredDebugMaterials = allMaterialsDebug.filter((mat) => {
-    const query = debugSearchQuery.toLowerCase();
-    const nameMatch = mat.name && mat.name.toLowerCase().includes(query);
-    const idMatch = mat.id && mat.id.toString().includes(query);
-    return nameMatch || idMatch;
-  });
 
   const hexToRgb = (hex: string): [number, number, number] => {
     let cleanHex = hex.replace("#", "");
@@ -190,32 +183,6 @@ function ConteudoMonteSeuCarro() {
       ((num >> 8) & 255) / 255,
       (num & 255) / 255
     ];
-  };
-
-  const testPaintMaterialDebug = (mat: any) => {
-    if (!sketchfabApi || !mat) return;
-    const verdeColor: [number, number, number] = [0.02, 0.85, 0.05];
-    
-    if (mat.channels && mat.channels.AlbedoPBR) {
-      mat.channels.AlbedoPBR.color = verdeColor;
-      mat.channels.AlbedoPBR.enable = true;
-      sketchfabApi.setMaterial(mat, () => {
-        if (typeof sketchfabApi.updateMaterial === "function") {
-          sketchfabApi.updateMaterial(mat);
-        }
-      });
-    }
-  };
-
-  const resetDebugColors = () => {
-    if (!sketchfabApi) return;
-    applyMaterialColor(paintMaterials, selectedColor);
-    applyMaterialColor(parachoqueMaterials, selectedParachoqueColor);
-    applyMaterialColor(motorTraseiroMaterials, selectedMotorColor);
-    applyMaterialColor(wheelMaterials, selectedWheelColor);
-    applyMaterialColor(interiorMaterials, selectedInteriorColor);
-    applyMaterialColor(taillightMaterials, selectedTaillightColor);
-    applyMaterialColor(lateralDesenhoMaterials, selectedLateralColor);
   };
 
   const handleAddToCart = () => {
@@ -271,8 +238,6 @@ function ConteudoMonteSeuCarro() {
 
   useEffect(() => {
     if (isReady && currentId && iframeRef.current && (window as any).Sketchfab) {
-      setAllMaterialsDebug([]);
-
       const client = new (window as any).Sketchfab(iframeRef.current);
       
       client.init(currentId, {
@@ -289,8 +254,6 @@ function ConteudoMonteSeuCarro() {
 
             api.getMaterialList((err: any, materials: any[]) => {
               if (!err && materials) {
-                setAllMaterialsDebug(materials);
-                
                 const pinturas: any[] = [];
                 const parachoque: any[] = [];
                 const motor: any[] = [];
@@ -356,16 +319,23 @@ function ConteudoMonteSeuCarro() {
     }
   }, [isReady, currentId]);
 
+  // Função otimizada para manter texturas, relevos e brilhos originais intactos
   const applyMaterialColor = (matList: any[], hexColor: string) => {
-    if (!sketchfabApi) return;
+    if (!sketchfabApi || !matList || matList.length === 0) return;
     const rgb = hexToRgb(hexColor);
 
     matList.forEach((mat: any) => {
       if (mat.channels && mat.channels.AlbedoPBR) {
         mat.channels.AlbedoPBR.color = rgb;
         mat.channels.AlbedoPBR.enable = true;
+        // Se houver uma textura original no canal, mantemos o blend ativo para não apagar os detalhes
+        if (mat.channels.AlbedoPBR.texture) {
+          mat.channels.AlbedoPBR.factor = 1.0;
+        }
         sketchfabApi.setMaterial(mat, () => {
-          if (typeof sketchfabApi.updateMaterial === "function") sketchfabApi.updateMaterial(mat);
+          if (typeof sketchfabApi.updateMaterial === "function") {
+            sketchfabApi.updateMaterial(mat);
+          }
         });
       }
     });
@@ -413,8 +383,6 @@ function ConteudoMonteSeuCarro() {
           />
         </div>
       </div>
-
-      
 
       {/* Botão lateral para abrir configurador */}
       <div className="absolute top-1/2 -translate-y-1/2 z-40 flex items-center">
