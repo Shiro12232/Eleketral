@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 
 // Catálogo principal
 const pecasCatalogo = [
-  { id: 1, nome: 'REALISTC SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 1.331 ', precoPromo: 'R$  1.198', precoNum:  1198, imagem: '/rodanew.png', descricao: 'Jogo de rodas esportivas aro 18' },
-  { id: 2, nome: 'PORSCHE SYLE', categoria: 'Rodas ', precoOriginal: 'R$ 2.442', precoPromo: 'R$ 2.198', precoNum: 2198, imagem: '/rodanew2.png', descricao: 'Design agressivo para projetos esportivos.' },
-  { id: 3, nome: 'TUNNER SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 1.775', precoPromo: 'R$ 1.598', precoNum: 1598, imagem: '/rodanew3.png', descricao: 'Pneu aderente para alta velocidade.' },
-  { id: 4, nome: 'GT WING', categoria: 'Aerofólio', precoOriginal: 'R$ 775,55', precoPromo: 'R$  698', precoNum:  698, imagem: '/aerofolio.jpg', descricao: 'Aerofólio esportivo para visual mais agressivo.' },
-  { id: 5, nome: 'CARBON RACING', categoria: 'Aerofólio', precoOriginal: 'R$1.331', precoPromo: 'R$  1.198', precoNum:  1198, imagem: '/aerofolio2.jpg', descricao: 'Aerofólio em estilo fibra de carbono.' },
-  { id: 6, nome: 'PREMIUM AJUSTÁVEL', categoria: 'Aerofólio', precoOriginal: 'R$ 1.775', precoPromo: 'R$ 1.598', precoNum: 1598, imagem: '/aerofolio3.jpg', descricao: 'Visual discreto com acabamento esportivo.' },
-  { id: 7, nome: 'ESCAPAMENTO RACING', categoria: 'Escapamento', precoOriginal: 'R$ 1.775', precoPromo: 'R$  1.598', precoNum:  1598, imagem: '/escapamentonw.png', descricao: 'Sistema esportivo para visual mais agressivo.' },
-  { id: 8, nome: 'ESCAPAMENTO ESPORTIVO', categoria: 'Escapamento', precoOriginal: 'R$ 775', precoPromo: 'R$  698', precoNum:  698, imagem: '/escapamentoajst.png', descricao: 'Acabamento premium para projetos esportivos.' },
-  { id: 9, nome: 'DUPLO SPORT', categoria: 'Escapamento', precoOriginal: 'R$ 1.108', precoPromo: 'R$  998', precoNum:  998, imagem: '/newescapamento3.png',  descricao: 'Splitter dianteiro em estilo fibra de carbono.' },
+  { id: 1, nome: 'REALISTC SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 1.331 ', precoPromo: 'R$  1.198', precoNum:  1198, imagem: '/pneu1.png', descricao: 'Disco de freio ventilado com pinça de freio vermelha' },
+  { id: 2, nome: 'PORSCHE SYLE', categoria: 'Rodas ', precoOriginal: 'R$ 2.442', precoPromo: 'R$ 2.198', precoNum: 2198, imagem: '/pneu porsche.png', descricao: 'Disco de freio perfurado com pinça de freio vermelha ' },
+  { id: 3, nome: 'TUNNER SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 1.775', precoPromo: 'R$ 1.598', precoNum: 1598, imagem: '/rodanew3.png', descricao: 'Roda preta de 5 raios.' },
+  { id: 4, nome: 'GT WING', categoria: 'Aerofólio', precoOriginal: 'R$ 775,55', precoPromo: 'R$  698', precoNum:  698, imagem: '/aerofolio.jpg', descricao: 'Suportes laterais ajustados por hastes duplas e placas laterais retangulares.' },
+  { id: 5, nome: 'CARBON RACING', categoria: 'Aerofólio', precoOriginal: 'R$1.331', precoPromo: 'R$  1.198', precoNum:  1198, imagem: '/aerofolio2.jpg', descricao: 'Suportes angulares robustos e abas laterais inclinadas para otimização de fluxo de ar.' },
+  { id: 6, nome: 'PREMIUM AJUSTÁVEL', categoria: 'Aerofólio', precoOriginal: 'R$ 1.775', precoPromo: 'R$ 1.598', precoNum: 1598, imagem: '/aerofolio3.jpg', descricao: 'Discreto de perfil baixo com acabamento texturizado em estilo fibra de carbono e suportes de fixação embutidos.' },
+  { id: 7, nome: 'ESCAPAMENTO RACING', categoria: 'Escapamento', precoOriginal: 'R$ 1.775', precoPromo: 'R$  1.598', precoNum:  1598, imagem: '/escapamentonw.png', descricao: 'Silenciador central cilíndrico metálico, tubulação curvada' },
+  { id: 8, nome: 'ESCAPAMENTO ESPORTIVO', categoria: 'Escapamento', precoOriginal: 'R$ 775', precoPromo: 'R$  698', precoNum:  698, imagem: '/escapamentoajst.png', descricao: 'cilíndrico metálico vertical com extremidades arredondadas.' },
+  { id: 9, nome: 'DUPLO SPORT', categoria: 'Escapamento', precoOriginal: 'R$ 1.108', precoPromo: 'R$  998', precoNum:  998, imagem: '/newescapamento3.png',  descricao: 'Dupla com ponteiras ovais metálicas brilhantes' },
   //{ id: 10, nome: 'Escapamento Race', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento4.jpg', descricao: 'Modelo de competição.' },
   //{ id: 11, nome: 'Escapamento Titanium', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/newescapamento.png', descricao: 'Ultra leve em titânio.' },
 ];
@@ -114,7 +114,7 @@ export default function CatalogoPage() {
                   </span>
 
                   {/* Imagem */}
-                  <div className="relative w-full h-60 bg-zinc-950 overflow-hidden flex items-center justify-center">
+                  <div className="relative w-full h-68 bg-zinc-950 overflow-hidden flex items-center justify-center">
 
                     <img 
                       src={item.imagem} 
