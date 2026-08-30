@@ -108,7 +108,9 @@ export default function Car3D({
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 px-4 md:px-8">
         
         {/* textos do lado esquerdo */}
-        <div className="flex flex-col gap-6">
+        <div className=" flex flex-col gap-6"
+        data-aos="fade-down-right">
+          
           <span className="text-purple-400 font-semibold tracking-wider text-xs uppercase">MONTE DO SEU JEITO</span>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white">
             Personalize <br /> seu carro com <br />

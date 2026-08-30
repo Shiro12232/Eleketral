@@ -111,7 +111,8 @@ export default function SelecionarCarroPage() {
 
   return (
     <section className="min-h-screen bg-[#0b0b0f] text-white py-24 px-8">
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto text-center"
+       data-aos="zoom-out">
         <h1 className="text-4xl font-extrabold mb-4">Qual carro você quer personalizar?</h1>
         <p className="text-gray-400 mb-12">Selecione um veículo abaixo para iniciar.</p>
 

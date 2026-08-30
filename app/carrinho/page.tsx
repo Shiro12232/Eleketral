@@ -97,7 +97,7 @@ export default function CarrinhoPage() {
               <Link href="/catalogo" className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl text-xs font-bold transition-all shadow-lg shadow-purple-600/20 cursor-pointer">
                 Ver Catálogo
               </Link>
-              <Link href="/monte-seu-carro" className="bg-zinc-800 hover:bg-zinc-700 px-6 py-3 rounded-xl text-xs font-bold transition-all border border-zinc-700 cursor-pointer">
+              <Link href="/selecionar-carro" className="bg-zinc-800 hover:bg-zinc-700 px-6 py-3 rounded-xl text-xs font-bold transition-all border border-zinc-700 cursor-pointer">
                 Monte seu Carro
               </Link>
             </div>

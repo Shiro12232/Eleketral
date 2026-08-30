@@ -74,7 +74,8 @@ export default function CatalogoPage() {
       <div className="max-w-7xl mx-auto">
         
         {/* Cabeçalho / Desconto */}
-        <div className=" mb-8 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 gap-6">
+        <div className=" mb-8 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 gap-6"
+         data-aos="zoom-in-right">
           <div>
             <h1 className="text-4xl font-extrabold mt-2">Catálogo de <span className="text-purple-500">Peças</span></h1>
             <p className="text-gray-400 text-sm mt-1">Use o cupom de <span className="text-purple-400 font-bold">10% de desconto </span> na primeira compra!</p>
