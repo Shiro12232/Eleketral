@@ -68,7 +68,7 @@ export function About() {
             {/* botao do insta  */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                href="https://www.instagram.com/"
+                href="https://www.instagram.com/eleketral/"
                 target="_blank"
                 className="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-xl 
                 flex items-center gap-2 transition-all shadow-lg shadow-purple-900/30 cursor-pointer"

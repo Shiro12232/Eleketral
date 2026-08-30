@@ -4,17 +4,17 @@ import React, { useState } from 'react';
 
 // Catálogo principal
 const pecasCatalogo = [
-  { id: 1, nome: 'SPORT 18', categoria: 'Rodas ', precoOriginal: 'R$ 2.600', precoPromo: 'R$  2.490', precoNum:  2.490, imagem: '/rodanew.png', descricao: 'Jogo de rodas esportivas aro 18' },
-  { id: 2, nome: 'RACING 19', categoria: 'Rodas ', precoOriginal: 'R$ 3.620', precoPromo: 'R$ 3.490', precoNum: 3.490, imagem: '/rodanew2.png', descricao: 'Design agressivo para projetos esportivos.' },
-  { id: 3, nome: 'FORGED 20', categoria: 'Rodas ', precoOriginal: 'R$ 3.600', precoPromo: 'R$ 3.490', precoNum: 3.490, imagem: '/rodanew3.png', descricao: 'Pneu aderente para alta velocidade.' },
-  { id: 4, nome: 'GT WING', categoria: 'Aerofólio', precoOriginal: 'R$ 940', precoPromo: 'R$  899', precoNum:  899, imagem: '/aerofolio.jpg', descricao: 'Aerofólio esportivo para visual mais agressivo.' },
-  { id: 5, nome: 'CARBON WING', categoria: 'Aerofólio', precoOriginal: 'R$1.550', precoPromo: 'R$  1.490', precoNum:  1.490, imagem: '/aerofolio2.jpg', descricao: 'Aerofólio em estilo fibra de carbono.' },
-  { id: 6, nome: 'DUCKTAIL', categoria: 'Aerofólio', precoOriginal: 'R$ 1.140', precoPromo: 'R$ 1.090', precoNum: 1.090, imagem: '/aerofolio3.jpg', descricao: 'Visual discreto com acabamento esportivo.' },
-  { id: 7, nome: 'SPORT EXHAUST', categoria: 'Escapamento', precoOriginal: 'R$ 1.320', precoPromo: 'R$  1.290', precoNum:  1.290, imagem: '/escapamentonw.png', descricao: 'Sistema esportivo para visual mais agressivo.' },
-  { id: 8, nome: 'TITANIUM EXHAUST', categoria: 'Escapamento', precoOriginal: 'R$ 2.230', precoPromo: 'R$  2.190', precoNum:  2.190, imagem: '/escapamentoajst.png', descricao: 'Acabamento premium para projetos esportivos.' },
-  { id: 9, nome: 'CARBON SPLITTER', categoria: 'Escapamento', precoOriginal: 'R$ 1.510', precoPromo: 'R$  1.390', precoNum:  1.390, imagem: '/newescapamento3.png',  descricao: 'Splitter dianteiro em estilo fibra de carbono.' },
-  { id: 10, nome: 'Escapamento Race', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento4.jpg', descricao: 'Modelo de competição.' },
-  { id: 11, nome: 'Escapamento Titanium', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/newescapamento.png', descricao: 'Ultra leve em titânio.' },
+  { id: 1, nome: 'REALISTC SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 2.490', precoPromo: 'R$  1.199', precoNum:  1199, imagem: '/rodanew.png', descricao: 'Jogo de rodas esportivas aro 18' },
+  { id: 2, nome: 'PORSCHE SYLE', categoria: 'Rodas ', precoOriginal: 'R$ 3.620', precoPromo: 'R$ 3.490', precoNum: 3490, imagem: '/rodanew2.png', descricao: 'Design agressivo para projetos esportivos.' },
+  { id: 3, nome: 'TUNNER SPORT', categoria: 'Rodas ', precoOriginal: 'R$ 2.600', precoPromo: 'R$ 1.999', precoNum: 1999, imagem: '/rodanew3.png', descricao: 'Pneu aderente para alta velocidade.' },
+  { id: 4, nome: 'GT WING', categoria: 'Aerofólio', precoOriginal: 'R$ 999,80', precoPromo: 'R$  899', precoNum:  899, imagem: '/aerofolio.jpg', descricao: 'Aerofólio esportivo para visual mais agressivo.' },
+  { id: 5, nome: 'CARBON RACING', categoria: 'Aerofólio', precoOriginal: 'R$1.700', precoPromo: 'R$  1.599', precoNum:  1599, imagem: '/aerofolio2.jpg', descricao: 'Aerofólio em estilo fibra de carbono.' },
+  { id: 6, nome: 'PREMIUM AJUSTÁVEL', categoria: 'Aerofólio', precoOriginal: 'R$ 1.140', precoPromo: 'R$ 1.090', precoNum: 1090, imagem: '/aerofolio3.jpg', descricao: 'Visual discreto com acabamento esportivo.' },
+  { id: 7, nome: 'ESCAPAMENTO RACING', categoria: 'Escapamento', precoOriginal: 'R$ 2.100', precoPromo: 'R$  1.999', precoNum:  1999, imagem: '/escapamentonw.png', descricao: 'Sistema esportivo para visual mais agressivo.' },
+  { id: 8, nome: 'ESCAPAMENTO ESPORTIVO', categoria: 'Escapamento', precoOriginal: 'R$ 1.090', precoPromo: 'R$  899', precoNum:  899, imagem: '/escapamentoajst.png', descricao: 'Acabamento premium para projetos esportivos.' },
+  { id: 9, nome: 'DUPLO SPORT', categoria: 'Escapamento', precoOriginal: 'R$ 1.510', precoPromo: 'R$  1.399', precoNum:  1.399, imagem: '/newescapamento3.png',  descricao: 'Splitter dianteiro em estilo fibra de carbono.' },
+  //{ id: 10, nome: 'Escapamento Race', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/escapamento4.jpg', descricao: 'Modelo de competição.' },
+  //{ id: 11, nome: 'Escapamento Titanium', categoria: 'Escapamento', precoOriginal: 'R$?', precoPromo: 'R$ ?', precoNum: 1, imagem: '/newescapamento.png', descricao: 'Ultra leve em titânio.' },
 ];
 
 export default function CatalogoPage() {
@@ -62,7 +62,7 @@ export default function CatalogoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0b0f] text-white pt-24 pb-16 px-4 md:px-8 relative">
+    <div className="min-h-screen bg-[#101014] text-white pt-24 pb-16 px-4 md:px-8 relative">
       
       {/* Pop-up de sucesso */}
       {mensagemSucesso && (
@@ -99,16 +99,16 @@ export default function CatalogoPage() {
         </div>
 
         {/* Grid das peças */}
-        <main className="w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 ">
+        <main className= " rounded-2xl w-full">
+          <div className=" rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-9 ">
             {itensFiltrados.map((item) => {
               return (
                 <div 
                   key={item.id} 
-                  className="bg-zinc-900/60 border border-purple-500 overflow-hidden flex flex-col justify-between hover:border-purple-500/60 transition-all group shadow-lg relative"
+                  className=" rounded-2xl bg-zinc-900/60 border border-purple-500 overflow-hidden flex flex-col justify-between hover:border-purple-500/60 transition-all group shadow-lg relative"
                 >
                   {/* Tag de Desconto */}
-                  <span className="absolute top-3 right-3 z-10 bg-purple-600/90 backdrop-blur-md text-white text-[10px] font-extrabold px-2.5 py-1 uppercase tracking-wider shadow-lg border border-purple-400/30">
+                  <span className=" rounded-2xl absolute top-3 right-3 z-10 bg-purple-600/90 backdrop-blur-md text-white text-[10px] font-extrabold px-2.5 py-1 uppercase tracking-wider shadow-lg border border-purple-400/30">
                     -10% na 1ª compra
                   </span>
 
@@ -136,7 +136,7 @@ export default function CatalogoPage() {
                   </div>
 
                   {/* Preço e Botão */}
-                  <div className="p-5 pt-0 flex items-center justify-between mt-2">
+                  <div className=" rounded-2xl p-5 pt-0 flex items-center justify-between mt-2">
                     <div className="flex flex-col">
                       <span className="text-[10px] text-gray-400 line-through">{item.precoOriginal}</span>
                       <span className="text-md font-extrabold text-purple-400">{item.precoPromo}</span>
@@ -145,7 +145,7 @@ export default function CatalogoPage() {
                     {/* Botão ADICIONAR */}
                     <button 
                       onClick={() => adicionarAoCarrinho(item)} 
-                      className="bg-purple-600/10 hover:bg-purple-600 border border-purple-500/30 text-white text-xs font-bold px-3 py-2 transition-all text-center cursor-pointer"
+                      className=" rounded-2xl bg-purple-600/10 hover:bg-purple-600 border border-purple-500/30 text-white text-xs font-bold px-3 py-2 transition-all text-center cursor-pointer"
                     >
                       ADICIONAR AO CARRINHO
                     </button>
