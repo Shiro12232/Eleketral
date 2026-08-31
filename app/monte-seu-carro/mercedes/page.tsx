@@ -10,7 +10,7 @@ import {
   Shield, Layers
 } from "lucide-react";
 
-// COMPONENTE COLOR PICKER CUSTOMIZADO
+
 function ColorPickerCustom({ 
   selectedColorHex, 
   onChangeColor,

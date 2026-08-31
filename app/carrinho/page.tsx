@@ -90,7 +90,7 @@ export default function CarrinhoPage() {
               <ShoppingCart size={32} />
             </div>
             <div className="flex flex-col gap-1 max-w-xs">
-              <h2 className="text-lg font-bold text-gray-200">Sua garagem está vazia</h2>
+              <h2 className="text-lg font-bold text-gray-200">Seu carrinho está vazio</h2>
               <p className="text-xs text-gray-400">Você ainda não escolheu nenhuma peça ou customizou nenhum carro.</p>
             </div>
             <div className="flex gap-3 mt-2">
