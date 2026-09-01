@@ -90,14 +90,14 @@ export default function SelecionarCarroPage() {
       slug: "mercedes",
       link3d: "https://sketchfab.com/3d-models/2015-mercedes-benz-s65-amg-coupe-a9a2e24df28049ce83e9c35cc1a2b3fa"
     },
-    {
-      id: 4,
-      imagens: ["/alfa1.png", "/alfa2.png", "/alfa3.png"],
-      marca: "Alfa Romeo",
-      modelo: "155 Q4",
-      slug: "alfa",
-      link3d: "https://sketchfab.com/3d-models/1992-alfa-romeo-155-q4-9be37de2d57d4c93bd472637a42b9db3"
-    },
+    //{
+      //id: 4,
+      //imagens: ["/alfa1.png", "/alfa2.png", "/alfa3.png"],
+      //marca: "Alfa Romeo",
+      //modelo: "155 Q4",
+      //slug: "alfa",
+      //link3d: "https://sketchfab.com/3d-models/1992-alfa-romeo-155-q4-9be37de2d57d4c93bd472637a42b9db3"
+    //},
     {
       id: 5,
       imagens: ["/Captura_de_tela1.png", "/Captura_de_tela_2.png", "/Captura_de_tela_3.png"],
