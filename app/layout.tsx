@@ -7,6 +7,7 @@ import 'aos/dist/aos.css';
 import Aos from 'aos';
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next"
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 

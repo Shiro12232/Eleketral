@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls, Html, Environment } from '@react-three/drei';
 import Lightning from '@/components/Lightning'; // Ajuste o caminho se necessário
+import { Analytics } from "@vercel/analytics/next"
 
 interface Car3DProps {
   bodyColor?: string;
@@ -89,7 +90,7 @@ export default function Car3D({
   return (
     <section className="relative w-full flex items-center overflow-hidden pb-12 pt-12">
       
-      {/* ⚡ EFEITO DE RAIO ANCORADO NA LATERAL DIREITA DO HERO */}
+     
       <div className="absolute top-0 right-0 w-full lg:w-2/3 h-full z-0 pointer-events-none opacity-90 overflow-hidden flex justify-end">
         <div className="w-full h-full relative">
           <Lightning
